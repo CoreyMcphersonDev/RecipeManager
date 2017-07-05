@@ -1,0 +1,80 @@
+General example
+INSERT INTO tablename (columnname, columnname, columnname) VALUES (columnname1Value, columnname2Value, columnname3Value);
+
+
+
+INSERT INTO difficultyrating (difficultyrating_id, difficultyrating_sort_order) VALUES (1, "Easy");
+
+
+INSERT INTO tasterating (tasterating_id, tasterating_name, tasterating_sort_order) VALUES (5, "I'll have what she's having", 5);
+
+INSERT INTO ingredient (ingredient_id, ingredient_name, ingredient_category_id) VALUES (69, "Banana Peppers", 8);
+
+INSERT INTO ingredientcategory (ingredient_category_id, ingredient_category_name) VALUES (1, "Produce");
+
+INSERT INTO recipe 
+(recipe_id, recipe_name, 
+recipe_timetocook_minutes, 
+recipe_timetoprep_minutes, 
+totaltime, 
+serves, 
+photo, photo_path, recipe_instructions, foodartist_id, 
+recipecategory_id, 
+recipecuisine_id, 
+difficultyrating_id) VALUES 
+(25, "Curried Coconut Quinoa and Greens with Roasted Cauliflower", 30, 10, 40, 4, null, null, "RECIPE_INSTRUCTIONS", null, 1, 5, 2);
+ 
+INSERT INTO recipecategory (recipecategory_id, recipecategory_name) VALUES (1, "Dinner");
+ 
+INSERT INTO recipecuisine (recipecuisine_id, recipecuisine_name) VALUES (1, "American");
+
+
+INSERT INTO recipeingredient (
+recipe_id, 
+ingredient_id, 
+recipeingredient_amount,
+unit_of_measure, 
+ingredient_note) VALUES (
+14, 
+27, 
+1.5,
+"Cup",
+"sliced");
+
+
+ALTER TABLE recipe 
+ADD COLUMN totaltime INTEGER(2) AFTER recipe_timetoprep_minutes;
+
+
+
+
+
+
+
+change ingredient amount from varchar to int
+add ingredient amount of measures cups tablespoon etc to recipe ingredient table
+
+
+To taste now = a solid measurement
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

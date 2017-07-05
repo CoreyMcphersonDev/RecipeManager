@@ -1,0 +1,83 @@
+General code overview of CRUD GROCERIES 
+
+CONTROLLERS
+	>
+	>
+
+MODELS
+	>
+	>	
+
+
+
+VIEWS
+	> Log-in
+		Simple/Minimal
+			Not yet a member? Sign up
+			Forgotten password
+		
+		
+	> HOME / User Landing 
+		"What would you like to do today?"
+			FUNCTIONS:
+				- Allow user to access all pages features from this landing page.
+				
+			LINKS TO:
+				EVERYTHING
+			 	- Plan your weekly grocery list by meals
+				- View your grocery list
+				- View your meal history
+				- Add meal page
+		
+				
+			
+			
+	> Build list by MEALS
+		"What would you like to eat this week?"
+			FUNCTIONS:
+				- Navigate through various meals already
+				
+				- 
+			
+			LINKS:
+				- Home
+				- Add meal
+				
+				
+	> RECIPES/MEALS
+		Meals currently in database
+			FUNCTIONS:
+				- Add RECIPES/MEALS
+				- Show all meals in meal list
+					- Break down by:
+						- Category (Breakfast, Lunch, Dinner, Snacks, Dessert)
+						- Cuisine (American, Asian, Indian, Italian, etc.)
+						- Difficulty
+			> Added By:
+			> Added Date:
+			> Last modified:
+			> Notes
+					
+					
+	> RECIPE HISTORY
+		Shows history of users meals
+			FUNCTIONS:
+				- Infographics showing meal history
+					- Break down by
+						- Date
+						- Category
+						- Cuisine
+						
+						
+	> About CRUD groceries recipe manager
+		Simple about the project
+		Simple about me (with nice headshot photo & contact info)
+		
+
+
+
+
+
+
+
+		

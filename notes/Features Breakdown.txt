@@ -1,0 +1,196 @@
+CRUD GROCERIES
+
+What meals do you want?
+	After you select, a list of every ingredient, checked. Uncheck everything already have, adds all checked items to list.
+What snacks would you like this week?
+	SNACKS populated by you.
+Do you need any household items this week? (household items have been populated by you)
+	Since household items are more rare unchecked by default
+Do you need any things for Millie this week?
+	Picture of millie - all customized by user.
+
+
+IMPORT RECIPES FROM API -
+	USER WILL HAVE TO MANUALLY MAP ITEMS TO THE RECIPES WHEN THEY IMPORT RECIPE
+
+
+DETERMINE UNITS OF MEASURE
+		(Will never really be summed)
+		Avoid conversion
+
+
+
+
+FEATURES:
+
+
+	* MEAL PLANNING
+		> Weekly/Monthly
+
+		> Save Meals in a Meal Plan table and their corresponding ingredients in an Ingredients table
+
+		> When user is planning their weekly meals user can select saved meals like Pizza
+			> When user selects pizza it autopopulates their meal plan LIST and it also populates their ingredient/shopping LIST
+				with all of the typical ingredients user puts into pizza
+			> By default each item is pre-selected and user can simply hit a save button to save all of these items to user's grocery store list
+				User Can uncheck any items they don't need (leftover cheese from something else? uncheck it and it's not added to user's list
+
+	* RECIPES
+			> Include recipes
+				> Credit website pulled recipe from
+			> Recipe randomizer
+				Similar to the "I'm feeling lucky" button on google
+			> Recipe Category
+				Entree
+				Dessert
+				Breakfast
+				Snacks
+			> Cuisine Category
+				Asian
+				Indian
+				Italian
+				Mexican
+				ETC.
+			> E-mail recipes
+
+
+
+
+
+	* MEAL TASTINESS RATING SYSTEM
+			> 1 - 5?
+
+	* MEAL DIFFICULTY RATING SYSTEM
+			> 1 - 5?
+
+	* MEAL HISTORY / CHARTS / GRAPHS
+		> Track which meals user has when.
+			Want to be able to see a yearly breakdown of what meals when by date, etc.
+		> Costs per meals
+		> Costs
+
+	* IMAGES
+		> FOR DEMO DAY ONLY
+			Take custom photos of some food and have them accompany the recipes page for each recipe
+
+	* GROCERY LIST
+		> Printable Grocery List
+		> Integrate with Kroger API/Clicklist feature?
+		> Evernote / Google Drive
+			- If impossible to implement kroger clicklist
+			- These apps can solve the desktop to mobile problem
+
+
+	* API's
+		*Kroger
+			> PULL ITEM LOCATIONS
+			> PULL ITEM COSTS
+			> PULL COUPONS
+			> INTEGRATE STORE MEMBERSHIP SPECIALS
+					Kroger card/account
+
+		> Google Maps
+			> Find nearest Kroger/walmart/etc
+
+	* KONAMI CODE EASTER EGG
+		>Not sure what happens just yet....
+			EPIC SAX GUY 10 HOUR GANDALF!
+
+
+	- SYNC BETWEEN USERS/DIFFERENT ACCOUNTS
+			> Link accounts so that two(+) people can contribute/alter/edit the same Databases of ingredients/lists/recipes/etc
+			>Evernote &OR Google Keep may present this possibility natively
+
+	- COSTS PER MEAL
+			> pull costs from kroger
+			> Sum price of ingredients
+
+
+RESOURCES:
+
+    > API's
+			- http://supermarketapi.com/Default.aspx
+			- http://food2fork.com/F2F/user/api#
+
+	>Possible Bootstrap Themes
+			- http://wrapbootstrap.com/preview/WB0T49865
+
+	> Misc
+			- https://ndb.nal.usda.gov/ndb/search
+			- https://opendata.stackexchange.com/questions/9212/supermarket-product-data
+			- https://webrecipemanager.com/menuplanner.php
+
+
+DATABASE ORGANIZATION:
+	(At most, 15 editable tables)
+	-DRILLED DOWN					-DRILLED UP
+									*Recipes
+									*Ingredients (locations/amounts/costs...)
+									*Food Artists (user name/user id...)
+
+
+
+POSSIBLE RECIPES GOING IN DATABASE:
+	MEALS:
+	1)Pizza (Corey)
+		Dough
+		Toppings
+	2)Crispy mushroom, spinach, avocado Quesadillas
+		http://cookieandkate.com/2013/crispy-mushroom-spinach-and-avocado-quesadillas/
+	3)Burritos (recipe binder)
+	4)THE BIG SALAD(ELAINE)
+	5)Sweet Potato & Quinoa Chili (Recipe binder)
+		http://www.theroastedroot.net/sweet-potato-black-bean-quinoa-chili/
+	6)Tofu Tikka Misala (Kristen)
+	7)Veggie Nachos (Corey)
+	8)Tian with bread crumbs (Recipe binder)
+	9)Asian Stir Fry/Thai Pineapple Fried Rice (Recipe binder)
+	10)30-minute vegan alfredo
+		https://minimalistbaker.com/30-minute-vegan-alfredo-vegan-gf/
+	11)CURRY BOWLS (Minimalist Baker/Corey)
+		https://minimalistbaker.com/curry-roasted-vegetable-lentil-kale-salad/
+	12)Kristen's Tortilla soup (Kristen)
+	13)Tofu Scramble
+	14)Sweet Potato and Black Bean Burgers (binder)
+	15)Sweet potato and green rice burrito bowls
+	DESSERT:
+	1)1-Bowl Vegan Choco Cake
+		https://minimalistbaker.com/one-bowl-vegan-chocolate-cake/
+	2)Simple Gluten-Free Apple Crisp
+		http://cookieandkate.com/2014/healthy-gluten-free-apple-crisp/
+	3)Banana Ice Cream RECIPE
+		Kristen + Corey collab!
+	4)
+	5)
+	SNACKS:
+	1) Granola (recipe binder)
+
+
+ARTWORK NEEDED:
+	>Logo
+	>Rating of recipe tastiness emblems (1-5)
+		-stars
+
+	>Rating of recipe difficulty emblems(1-3)
+		-Cooking utensils (knives?)
+			Different depending on level of difficulty
+				1 Knife looks happy, 3 knives are sweaty and working hard?
+
+	>PHOTOS OF FOOD
+
+PROBLEMS:
+	-No mobile version...must print hard copy of grocery list.
+
+	-Different people like to order/categorize their lists in different ways
+		(Possible to use Kroger API to pull aisle locations to help organize lists?)
+			((add option to start from either side of grocery store))
+	-Store Membership integration?
+		How to display costs by default?
+			Once user account is linked with Kroger card (etc.) only show discounted prices?
+				Always show differences in prices? (regular cost vs membership cost)
+	-Recipes
+		Recipes included should also have a button to instantly add ingredients from chosen recipes
+			to grocery list
+
+	-Creating Meals
+		Must build flux into this logic - pizza can and can't include many different things...
