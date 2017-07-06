@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Recipe;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
 

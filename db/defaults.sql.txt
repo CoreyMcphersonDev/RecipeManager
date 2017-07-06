@@ -42,35 +42,18 @@ ingredient_note) VALUES (
 "sliced");
 
 
+INSERT INTO mealhistory (
+mealhistory_id,
+recipe_id,
+tasterating_id,
+meal_made_date) VALUES
+1,
+1,
+1,
+
+
 ALTER TABLE recipe 
 ADD COLUMN totaltime INTEGER(2) AFTER recipe_timetoprep_minutes;
-
-
-
-
-
-
-
-change ingredient amount from varchar to int
-add ingredient amount of measures cups tablespoon etc to recipe ingredient table
-
-
-To taste now = a solid measurement
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
