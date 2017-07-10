@@ -60,9 +60,9 @@ public class RecipeController extends BaseController
 
         if (loggedIn())
         {
-           List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r ORDER BY recipeId", Recipe.class).getResultList();
+           List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r ORDER BY recipeName", Recipe.class).getResultList();
 
-            result = ok(views.html.recipe.render());
+            result = ok(views.html.recipes.render(recipes));
         }
         return result;
     }
@@ -83,11 +83,11 @@ public class RecipeController extends BaseController
 
         String searchRecipeName = form.get("recipeName");
 
-        Query query = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeName LIKE: searchRecipeName ORDER BY recipeName", Recipe.class);
-        query.setParameter("searchRecipeName", searchRecipeName + "%");
-
+        Query query = jpaApi.em().createNativeQuery("SELECT recipeId, recipeName, totaltime FROM Recipe r WHERE recipeName LIKE: :name ORDER BY recipename", Recipe.class);
+        query.setParameter("name", searchRecipeName + "%");
         List<Recipe> recipes = query.getResultList();
-        return ok(views.html.recipe.render());
+
+        return ok(views.html.recipes.render(recipes));
 
     }
 

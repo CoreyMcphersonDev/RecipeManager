@@ -5,16 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class FoordArtistId
+public class FoodArtistId
 {
     @Id
-    private Integer foodArtistId;
+    private int foodArtistId;
 
     private byte[] password;
     private byte[] salt;
 
 
-    public Integer getFoodArtistId()
+    public int getFoodArtistId()
     {
         return foodArtistId;
     }

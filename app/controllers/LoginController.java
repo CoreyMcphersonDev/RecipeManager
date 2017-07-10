@@ -1,7 +1,8 @@
 package controllers;
 
-import models.FoodArtist;
+import models.FoodArtistId;
 import models.Password;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -39,18 +40,20 @@ public class LoginController extends BaseController
             String username = form.get("foodArtistUserName");
             String password = form.get("password");
 
-            String sql = "SELECT foodArtistId, password, salt FROM foodartist WHERE foodArtistId = :foodArtistId";
+            String sql = "SELECT foodArtistId, password, salt FROM foodartist WHERE foodArtistId = :username";
+
+            //SHOW ME WHAT YOU GOT!
+            Logger.debug("Login SQL: " + sql);
 
             @SuppressWarnings("unchecked")
-            List<FoodArtist> foodArtistIds = jpaApi.em().
-                    createNativeQuery(sql, FoodArtist.class).
-                    setParameter("foodArtistUserName", username).
+            List<FoodArtistId> foodArtistIds = jpaApi.em().createNativeQuery(sql, FoodArtistId.class).
+                    setParameter("username", username).
                     getResultList();
 
             if (foodArtistIds.size() == 1)
             {
-
-                FoodArtist foodArtistId = foodArtistIds.get(0);
+                Logger.debug("got user");
+                FoodArtistId foodArtistId = foodArtistIds.get(0);
                 byte[] hashedPassword = Password.hashPassword(password.toCharArray(), foodArtistId.getSalt());
                 byte[] dbPassword = foodArtistId.getPassword();
 

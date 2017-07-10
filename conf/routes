@@ -16,7 +16,7 @@ GET     /recipe/:id                controllers.RecipeController.getRecipe(id:Int
 GET     /recipes                   controllers.RecipeController.getRecipes
 GET     /recipesNativeQuery        controllers.RecipeController.getRecipesNativeQuery
 GET     /recipeSearch              controllers.RecipeController.recipeSearch
-GET    /recipeAdd                 controllers.RecipeController.addRecipe
+GET     /recipeAdd                 controllers.RecipeController.addRecipe
 POST    /recipeAdd                 controllers.RecipeController.addNewRecipe
 
 

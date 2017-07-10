@@ -34,16 +34,18 @@ REPLACE INTO `difficultyrating` (`difficultyratingId`, `difficultyRatingSortOrde
 -- Dumping structure for table recipewizard.foodartist
 CREATE TABLE IF NOT EXISTS `foodartist` (
   `foodArtistId` int(11) NOT NULL COMMENT 'User id',
-  `foodArtistUsername` varchar(50) NOT NULL,
+  `foodArtistUserName` varchar(50) NOT NULL,
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `salt` varchar(100) NOT NULL,
+  `salt` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`foodArtistId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table recipewizard.foodartist: ~0 rows (approximately)
 /*!40000 ALTER TABLE `foodartist` DISABLE KEYS */;
+REPLACE INTO `foodartist` (`foodArtistId`, `foodArtistUserName`, `firstName`, `lastName`, `password`, `salt`) VALUES
+	(1, 'CoreyCooks', 'Corey', 'M', 'monkey', 'null');
 /*!40000 ALTER TABLE `foodartist` ENABLE KEYS */;
 
 -- Dumping structure for table recipewizard.ingredient
