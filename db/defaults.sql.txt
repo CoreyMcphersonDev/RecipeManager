@@ -46,11 +46,11 @@ INSERT INTO mealhistory (
 mealhistory_id,
 recipe_id,
 tasterating_id,
-meal_made_date) VALUES
+meal_made_date) VALUES(
 1,
 1,
 1,
-
+DATE);
 
 ALTER TABLE recipe 
 ADD COLUMN totaltime INTEGER(2) AFTER recipe_timetoprep_minutes;

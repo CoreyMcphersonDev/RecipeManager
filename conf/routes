@@ -12,8 +12,19 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
+GET     /recipe/:id                controllers.RecipeController.getRecipe(id:Integer)
+GET     /recipes                   controllers.RecipeController.getRecipes
+GET     /recipesNativeQuery        controllers.RecipeController.getRecipesNativeQuery
+GET     /recipeSearch              controllers.RecipeController.recipeSearch
+GET    /recipeAdd                 controllers.RecipeController.addRecipe
+POST    /recipeAdd                 controllers.RecipeController.addNewRecipe
+
+
 
 GET     /login                     controllers.LoginController.getLogin
 POST    /login                     controllers.LoginController.login
+
+
+
 
 
