@@ -20,8 +20,9 @@ GET     /recipeAdd                 controllers.RecipeController.addRecipe
 POST    /recipeAdd                 controllers.RecipeController.addNewRecipe
 
 
-GET     /foodartistAdd               controllers.FoodArtistController.addFoodArtist
-POST    /foodartistAdd               controllers.FoodArtistController.addNewFoodArtist
+GET     /foodartistAdd             controllers.FoodArtistController.addFoodArtist
+POST    /foodartistAdd             controllers.FoodArtistController.addNewFoodArtist
+POST    /foodartistUpdate          controllers.FoodArtistController.updateFoodArtist
 
 
 

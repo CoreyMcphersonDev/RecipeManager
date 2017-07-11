@@ -15,8 +15,8 @@ import java.util.List;
 
 public class FoodArtistController extends BaseController
 {
-    private  FormFactory formFactory;
-    private  JPAApi jpaApi;
+     FormFactory formFactory;
+     JPAApi jpaApi;
 
     public Result addFoodArtist()
     {
@@ -66,7 +66,7 @@ public class FoodArtistController extends BaseController
             byte[] salt = Password.getNewSalt();
             byte[] hashedPassword = Password.hashPassword(foodArtistForm.password.toCharArray(), salt);
 
-            foodArtist.setUserName(foodArtistForm.userName);
+            foodArtist.setfoodArtistUserName(foodArtistForm.userName);
             foodArtist.setFirstName(foodArtistForm.firstName);
             foodArtist.setLastName(foodArtistForm.lastName);
             foodArtist.setPassword(hashedPassword);
@@ -82,5 +82,25 @@ public class FoodArtistController extends BaseController
         }
 
         return result;
+    }
+
+    public Result updateFoodArtist()
+    {
+        DynamicForm form = formFactory.form().bindFromRequest();
+
+        int foodArtistId = Integer.parseInt(form.get("id"));
+        String foodArtistUserName = form.get("username");
+        String firstName = form.get("firstname");
+        String lastName = form.get("lastname");
+
+        FoodArtist foodArtist = jpaApi.em().createQuery("SELECT f FROM FoodArtist f WHERE foodartistId = :id",
+                FoodArtist.class).setParameter("id", foodArtistId).getSingleResult();
+
+        foodArtist.setfoodArtistUserName(foodArtistUserName);
+        foodArtist.setFirstName(firstName);
+        foodArtist.setLastName(lastName);
+
+        jpaApi.em().persist(foodArtist);
+        return redirect(routes.RecipeController.getRecipes());
     }
 }

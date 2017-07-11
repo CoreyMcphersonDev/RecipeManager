@@ -48,12 +48,12 @@ public class FoodArtist
         this.foodartistId = foodartistId;
     }
 
-    public String getUserName()
+    public String getfoodArtistUserName()
     {
         return userName;
     }
 
-    public void setUserName(String userName)
+    public void setfoodArtistUserName(String userName)
     {
         this.userName = userName;
     }
