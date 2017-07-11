@@ -1,0 +1,16 @@
+@(foodArtistForm: FoodArtistForm, errorMessages : List[String])
+<!DOCTYPE html>
+<html>
+<body>
+<form method="POST" action="@routes.FoodArtistController.addFoodArtist">
+    User Name:<input type="text" name="username" id="username" ><br>
+    First Name:<input type="text" name="firstname" id="firstname" ><br>
+    Last Name:<input type="text" name="lastname" id="lastname"><br>
+    Password:<input type="password" name="password" id="password"><br>
+    <button type="submit">Save</button>
+</form>
+@for(errorMessage <- errorMessages){
+<h3>@errorMessage</h3>
+}
+</body>
+</html>

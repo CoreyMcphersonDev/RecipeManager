@@ -20,6 +20,11 @@ GET     /recipeAdd                 controllers.RecipeController.addRecipe
 POST    /recipeAdd                 controllers.RecipeController.addNewRecipe
 
 
+GET     /foodartistAdd               controllers.FoodArtistController.addFoodArtist
+POST    /foodartistAdd               controllers.FoodArtistController.addNewFoodArtist
+
+
+
 
 GET     /login                     controllers.LoginController.getLogin
 POST    /login                     controllers.LoginController.login

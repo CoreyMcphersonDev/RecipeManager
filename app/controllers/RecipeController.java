@@ -70,7 +70,8 @@ public class RecipeController extends BaseController
     @Transactional(readOnly = true)
     public Result getRecipesNativeQuery()
     {
-        List<Recipe> recipes = jpaApi.em().createNativeQuery("Select recipeId, recipeName FROM Recipe r ORDER BY recipeName, recipeId",
+        List<Recipe> recipes = jpaApi.em().createNativeQuery("Select recipeId, recipeName, recipeTimeCookMinutes," +
+                        "recipeTimePrepMinutes, totalTime, serves, FROM Recipe r ORDER BY recipeName, recipeId",
                 Recipe.class).getResultList();
 
         return ok(views.html.recipe.render());

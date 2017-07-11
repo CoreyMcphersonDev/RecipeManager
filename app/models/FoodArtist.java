@@ -1,6 +1,8 @@
 package models;
 
 
+import play.data.validation.Constraints;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,6 +13,10 @@ import javax.persistence.Table;
 @Table(name = "FoodArtist")
 public class FoodArtist
 {
+    public static final int USER_NAME_MAX_LENGTH = 30;
+    public static final int FIRST_NAME_MAX_LENGTH = 15;
+    public static final int LAST_NAME_MAX_LENGTH = 30;
+
     @Id
     @Column(name = "foodArtistId")
     private int foodartistId;
@@ -19,6 +25,8 @@ public class FoodArtist
     private String userName;
 
     @Column(name = "firstName")
+    @Constraints.MinLength(1)
+    @Constraints.MaxLength(10)
     private String firstName;
 
     @Column(name = "lastName")
