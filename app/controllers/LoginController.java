@@ -17,15 +17,14 @@ import java.util.List;
 
 public class LoginController extends BaseController
 {
-        FormFactory formFactory;
-        JPAApi jpaApi;
+       private FormFactory formFactory;
+       private JPAApi jpaApi;
 
         @Inject
         public LoginController(FormFactory formFactory, JPAApi jpaApi)
         {
             this.formFactory = formFactory;
             this.jpaApi = jpaApi;
-
         }
 
         public Result getLogin()

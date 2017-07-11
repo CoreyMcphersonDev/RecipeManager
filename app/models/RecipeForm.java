@@ -3,12 +3,12 @@ package models;
 public class RecipeForm
 {
     public String recipeName;
-    public String recipeTimeCookMinutes;
-    public String recipeTimePrepMinutes;
+    public String timeCook;
+    public String timePrep;
     public String totalTime;
     public String serves;
-    public String recipeInstructions;
-    public String recipeSource;
+    public String instructions;
+    public String source;
 
 
 

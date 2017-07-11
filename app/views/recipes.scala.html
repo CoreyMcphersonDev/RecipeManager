@@ -6,14 +6,20 @@
     <script type="text/javascript" src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
+
 <form method="GET" action="@routes.RecipeController.recipeSearch">
     Recipe Name: <input type="text" name="recipename" id="recipename">
     <button type="submit">Search</button>
 </form>
+
 <table>
-    @for(recipe <- recipes){
+    @for(recipe <- recipes) {
+    <tr>
+        <td>
     <a href="/recipe/@recipe.getRecipeId">@recipe.getRecipeName</a>
+        </td>
     }
+
 </table>
 
 </body>

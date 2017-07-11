@@ -36,10 +36,10 @@ public class Recipe
     private String photoPath;
 
     @Column(name = "recipeInstructions")
-    private String recipeInstructions;
+    private String instructions;
 
     @Column(name = "recipeSource")
-    private String recipeSource;
+    private String source;
 
     public int getRecipeId()
     {
@@ -121,24 +121,24 @@ public class Recipe
         this.photoPath = photoPath;
     }
 
-    public String getRecipeInstructions()
+    public String getInstructions()
     {
-        return recipeInstructions;
+        return instructions;
     }
 
-    public void setRecipeInstructions(String recipeInstructions)
+    public void setInstructions(String instructions)
     {
-        this.recipeInstructions = recipeInstructions;
+        this.instructions = instructions;
     }
 
-    public String getRecipeSource()
+    public String getSource()
     {
-        return recipeSource;
+        return source;
     }
 
-    public void setRecipeSource(String recipeSource)
+    public void setSource(String source)
     {
-        this.recipeSource = recipeSource;
+        this.source = source;
     }
 }
 

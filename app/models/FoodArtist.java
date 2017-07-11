@@ -24,8 +24,6 @@ public class FoodArtist
     private int foodartistId;
 
     @Column(name = "foodArtistUserName")
-    @Constraints.MinLength(4)
-    @Constraints.MaxLength(30)
     private String userName;
 
     @Column(name = "firstName")
