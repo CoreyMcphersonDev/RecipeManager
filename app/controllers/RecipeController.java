@@ -75,9 +75,9 @@ public class RecipeController extends BaseController
         String searchRecipeName = form.get("recipeName");
         Logger.debug(searchRecipeName);
 
-        Query query = jpaApi.em().createNativeQuery("SELECT recipeName FROM Recipe r " +
-                "WHERE recipeName LIKE :recipeName ORDER BY recipename", Recipe.class);
-        query.setParameter("recipeName", searchRecipeName + "%");
+        Query query = jpaApi.em().createQuery("SELECT r FROM Recipe r " +
+                "WHERE recipeName LIKE :searchRecipeName ORDER BY recipeName", Recipe.class);
+        query.setParameter("searchRecipeName", searchRecipeName + "%");
         List<Recipe> recipes = query.getResultList();
 
         return ok(views.html.recipes.render(recipes));
