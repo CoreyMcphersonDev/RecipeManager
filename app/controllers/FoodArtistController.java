@@ -56,6 +56,12 @@ public class FoodArtistController extends BaseController
 
         boolean valid = true;
 
+        if (foodArtistForm.userName.length() < FoodArtist.USER_NAME_MIN_LENGTH)
+        {
+            valid = false;
+            errorMessages.add("User Name must be at least " + FoodArtist.USER_NAME_MIN_LENGTH);
+        }
+
         if (foodArtistForm.userName.length() > FoodArtist.USER_NAME_MAX_LENGTH)
         {
             valid = false;

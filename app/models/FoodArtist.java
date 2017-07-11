@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Constraint;
 
 
 @Entity
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 public class FoodArtist
 {
     public static final int USER_NAME_MAX_LENGTH = 30;
+    public static final int USER_NAME_MIN_LENGTH = 4;
     public static final int FIRST_NAME_MAX_LENGTH = 15;
     public static final int LAST_NAME_MAX_LENGTH = 30;
 
@@ -22,6 +24,8 @@ public class FoodArtist
     private int foodartistId;
 
     @Column(name = "foodArtistUserName")
+    @Constraints.MinLength(4)
+    @Constraints.MaxLength(30)
     private String userName;
 
     @Column(name = "firstName")
@@ -30,6 +34,7 @@ public class FoodArtist
     private String firstName;
 
     @Column(name = "lastName")
+    @Constraints.MinLength(1)
     private String lastName;
 
     @Column(name = "password")
@@ -97,5 +102,5 @@ public class FoodArtist
     {
         this.salt = salt;
     }
-    
+
 }
