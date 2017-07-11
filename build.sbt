@@ -1,4 +1,4 @@
-name := """play-java"""
+name := """RecipeManager"""
 
 version := "1.0-SNAPSHOT"
 

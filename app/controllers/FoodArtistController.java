@@ -10,13 +10,26 @@ import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class FoodArtistController extends BaseController
 {
-     FormFactory formFactory;
-     JPAApi jpaApi;
+
+    FormFactory formFactory;
+    JPAApi jpaApi;
+
+    @Inject
+    public FoodArtistController(FormFactory formFactory, JPAApi jpaApi)
+    {
+        this.formFactory = formFactory;
+        this.jpaApi = jpaApi;
+
+    }
+
 
     public Result addFoodArtist()
     {
