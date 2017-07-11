@@ -21,9 +21,11 @@ public class LoginController extends BaseController
         JPAApi jpaApi;
 
         @Inject
-        public LoginController(FormFactory formFactory)
+        public LoginController(FormFactory formFactory, JPAApi jpaApi)
         {
             this.formFactory = formFactory;
+            this.jpaApi = jpaApi;
+
         }
 
         public Result getLogin()
@@ -37,7 +39,7 @@ public class LoginController extends BaseController
             Result result = unauthorized("Intruder Alert!");
 
             DynamicForm form = formFactory.form().bindFromRequest();
-            String username = form.get("foodArtistUserName");
+            String username = form.get("username");
             String password = form.get("password");
 
             String sql = "SELECT foodArtistId, password, salt FROM foodartist WHERE foodArtistId = :username";
