@@ -49,6 +49,7 @@ public class FoodArtistController extends BaseController
 
         FoodArtistForm foodArtistForm = new FoodArtistForm();
 
+        foodArtistForm.foodArtistId = form.get("foodArtistId");
         foodArtistForm.userName = form.get("username");
         foodArtistForm.firstName = form.get("firstname");
         foodArtistForm.lastName = form.get("lastname");
@@ -85,7 +86,7 @@ public class FoodArtistController extends BaseController
             byte[] salt = Password.getNewSalt();
             byte[] hashedPassword = Password.hashPassword(foodArtistForm.password.toCharArray(), salt);
 
-            foodArtist.setfoodArtistUserName(foodArtistForm.userName);
+           // foodArtist.setfoodArtistUserName(foodArtistForm.userName);
             foodArtist.setFirstName(foodArtistForm.firstName);
             foodArtist.setLastName(foodArtistForm.lastName);
             foodArtist.setPassword(hashedPassword);

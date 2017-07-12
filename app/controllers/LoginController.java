@@ -41,7 +41,7 @@ public class LoginController extends BaseController
             String username = form.get("username");
             String password = form.get("password");
 
-            String sql = "SELECT foodArtistId, password, salt FROM foodartist WHERE foodArtistId = :username";
+            String sql = "SELECT foodArtistId, password, salt FROM foodArtist WHERE foodArtistId = :username";
 
             //SHOW ME WHAT YOU GOT!
             Logger.debug("Login SQL: " + sql);

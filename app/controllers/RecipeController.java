@@ -1,9 +1,8 @@
 package controllers;
 
-import models.Password;
+import models.MealHistory;
 import models.Recipe;
 import models.RecipeForm;
-import org.hibernate.sql.Select;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.FormFactory;
@@ -11,7 +10,6 @@ import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
 
-import java.rmi.activation.ActivationGroup_Stub;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -20,8 +18,12 @@ import java.util.List;
 
 import static play.mvc.Results.unauthorized;
 
+
 public class RecipeController extends BaseController
 {
+
+    //TODO: PUT IN A 'NO RESULTS FOUND' PAGE FOR GENERIC SEARCHES
+
     private final FormFactory formFactory;
     private final JPAApi jpaApi;
 
@@ -79,6 +81,9 @@ public class RecipeController extends BaseController
                 "WHERE recipeName LIKE :searchRecipeName ORDER BY recipeName", Recipe.class);
         query.setParameter("searchRecipeName", searchRecipeName + "%");
         List<Recipe> recipes = query.getResultList();
+
+        //NEED TO PUT IN A 'NO RESULTS FOUND' PAGE FOR GENERIC SEARCHES
+
 
         return ok(views.html.recipes.render(recipes));
     }
@@ -153,7 +158,24 @@ public class RecipeController extends BaseController
         jpaApi.em().persist(recipe);
 
         return redirect(routes.RecipeController.getRecipes());
-
     }
+
+    @Transactional(readOnly = true)
+    public Result getMealHistory()
+    {
+        DynamicForm form = formFactory.form().bindFromRequest();
+        Result result = unauthorized("INTRUDER ALERT");
+        int foodARtistId = Integer.parseInt(form.get("foodArtistId"));
+
+        if (loggedIn())
+        {
+            List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE foodArtistId =:id ORDER BY recipeName", Recipe.class)
+                    .setParameter("id", foodARtistId).getResultList();
+
+            result = ok(views.html.recipes.render(recipes));
+        }
+        return result;
+    }
+
 
 }

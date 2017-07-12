@@ -41,6 +41,19 @@ public class Recipe
     @Column(name = "recipeSource")
     private String source;
 
+    @Column(name = "foodArtistId")
+    private int foodArtistId;
+
+    @Column(name = "recipeCategoryId")
+    private int categoryId;
+
+    @Column(name = "recipeCuisineId")
+    private int cuisineId;
+
+    @Column(name = "difficultyRatingId")
+    private int difficultyRatingId;
+
+
     public int getRecipeId()
     {
         return recipeId;
@@ -139,6 +152,47 @@ public class Recipe
     public void setSource(String source)
     {
         this.source = source;
+    }
+
+
+    public int getFoodArtistId()
+    {
+        return foodArtistId;
+    }
+
+    public void setFoodArtistId(int foodArtistId)
+    {
+        this.foodArtistId = foodArtistId;
+    }
+
+    public int getCategoryId()
+    {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId)
+    {
+        this.categoryId = categoryId;
+    }
+
+    public int getCuisineId()
+    {
+        return cuisineId;
+    }
+
+    public void setCuisineId(int cuisineId)
+    {
+        this.cuisineId = cuisineId;
+    }
+
+    public int getDifficultyRatingId()
+    {
+        return difficultyRatingId;
+    }
+
+    public void setDifficultyRatingId(int difficultyRatingId)
+    {
+        this.difficultyRatingId = difficultyRatingId;
     }
 }
 

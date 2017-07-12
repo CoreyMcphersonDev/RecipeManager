@@ -20,10 +20,12 @@ POST    /recipeAdd                 controllers.RecipeController.addNewRecipe
 POST    /recipeUpdate              controllers.RecipeController.updateRecipe
 
 
+
 GET     /foodartistAdd             controllers.FoodArtistController.addFoodArtist
 POST    /foodartistAdd             controllers.FoodArtistController.addNewFoodArtist
 POST    /foodartistUpdate          controllers.FoodArtistController.updateFoodArtist
 
+GET     /mealHistory               controllers.RecipeController.getMealHistory
 
 
 
