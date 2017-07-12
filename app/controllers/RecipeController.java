@@ -69,6 +69,15 @@ public class RecipeController extends BaseController
         return result;
     }
 
+    @Transactional
+    public Result getRecipesNativeQuery()
+    {
+        List<Recipe> recipes = jpaApi.em().createNativeQuery("SELECT recipeId, recipeName, recipeInstructions FROM Recipe r ORDER BY recipeName",
+                Recipe.class).getResultList();
+
+        return ok(views.html.recipes.render(recipes));
+    }
+
     @Transactional(readOnly = true)
     public Result recipeSearch()
     {

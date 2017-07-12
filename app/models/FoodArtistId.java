@@ -10,13 +10,20 @@ public class FoodArtistId
     @Id
     private int foodArtistId;
 
-    private byte[] password;
-    private byte[] salt;
+    private String foodArtistUserName;
 
+    private byte[] password;
+
+    private byte[] salt;
 
     public int getFoodArtistId()
     {
         return foodArtistId;
+    }
+
+    public String getFoodArtistUserName()
+    {
+        return foodArtistUserName;
     }
 
     public byte[] getPassword()

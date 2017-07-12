@@ -11,6 +11,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class LoginController extends BaseController
             String username = form.get("username");
             String password = form.get("password");
 
-            String sql = "SELECT foodArtistId, password, salt FROM foodArtist WHERE foodArtistId = :username";
+            String sql = "SELECT foodArtistId, foodArtistUserName, firstName, lastName, password, salt FROM foodArtist WHERE foodArtistUserName = :username";
 
             //SHOW ME WHAT YOU GOT!
             Logger.debug("Login SQL: " + sql);
@@ -53,17 +54,20 @@ public class LoginController extends BaseController
 
             if (foodArtistIds.size() == 1)
             {
+                //CURRENTLY LOGIN PAGE REQUIRES foodArtistId, NOT foodArtstName!
                 Logger.debug("got user");
                 FoodArtistId foodArtistId = foodArtistIds.get(0);
                 byte[] hashedPassword = Password.hashPassword(password.toCharArray(), foodArtistId.getSalt());
                 byte[] dbPassword = foodArtistId.getPassword();
 
+
+
                 if (Arrays.equals(hashedPassword, dbPassword))
                 {
+
                     login(username);
                     result = redirect(routes.RecipeController.getRecipes());
                 }
-
             }
                 return result;
         }

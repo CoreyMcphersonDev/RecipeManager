@@ -4,6 +4,7 @@ package controllers;
 import models.FoodArtist;
 import models.FoodArtistForm;
 import models.Password;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -12,6 +13,7 @@ import play.mvc.Result;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -49,7 +51,7 @@ public class FoodArtistController extends BaseController
 
         FoodArtistForm foodArtistForm = new FoodArtistForm();
 
-        foodArtistForm.foodArtistId = form.get("foodArtistId");
+
         foodArtistForm.userName = form.get("username");
         foodArtistForm.firstName = form.get("firstname");
         foodArtistForm.lastName = form.get("lastname");
@@ -86,11 +88,14 @@ public class FoodArtistController extends BaseController
             byte[] salt = Password.getNewSalt();
             byte[] hashedPassword = Password.hashPassword(foodArtistForm.password.toCharArray(), salt);
 
-           // foodArtist.setfoodArtistUserName(foodArtistForm.userName);
+            foodArtist.setfoodArtistUserName(foodArtistForm.userName);
             foodArtist.setFirstName(foodArtistForm.firstName);
             foodArtist.setLastName(foodArtistForm.lastName);
             foodArtist.setPassword(hashedPassword);
             foodArtist.setSalt(salt);
+
+
+
 
             jpaApi.em().persist(foodArtist);
 

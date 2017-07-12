@@ -14,6 +14,7 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET     /recipe/:id                controllers.RecipeController.getRecipe(id:Integer)
 GET     /recipes                   controllers.RecipeController.getRecipes
+GET     /recipesNativeQuery        controllers.RecipeController.getRecipesNativeQuery
 GET     /recipeSearch              controllers.RecipeController.recipeSearch
 GET     /recipeAdd                 controllers.RecipeController.addRecipe
 POST    /recipeAdd                 controllers.RecipeController.addNewRecipe
