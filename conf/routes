@@ -26,7 +26,7 @@ GET     /foodartistAdd             controllers.FoodArtistController.addFoodArtis
 POST    /foodartistAdd             controllers.FoodArtistController.addNewFoodArtist
 POST    /foodartistUpdate          controllers.FoodArtistController.updateFoodArtist
 
-GET     /mealHistory               controllers.RecipeController.getMealHistory
+GET     /mealHistory               controllers.MealHistoryController.getMealHistory
 
 
 

@@ -154,7 +154,6 @@ public class Recipe
         this.source = source;
     }
 
-
     public int getFoodArtistId()
     {
         return foodArtistId;

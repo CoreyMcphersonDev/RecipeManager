@@ -9,6 +9,7 @@ public class RecipeForm
     public String serves;
     public String instructions;
     public String source;
+    public String foodArtistId;
 
 
 

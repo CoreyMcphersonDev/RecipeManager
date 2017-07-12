@@ -27,7 +27,6 @@ public class RecipeController extends BaseController
     private final FormFactory formFactory;
     private final JPAApi jpaApi;
 
-
     @Inject
     public RecipeController(FormFactory formFactory, JPAApi jpaApi)
     {
@@ -52,7 +51,6 @@ public class RecipeController extends BaseController
         recipes.add(0, none);
 
         return ok(views.html.recipe.render(recipe, recipes));
-
     }
 
     @Transactional(readOnly = true)
@@ -64,7 +62,7 @@ public class RecipeController extends BaseController
         {
            List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r ORDER BY recipeName", Recipe.class).getResultList();
 
-            result = ok(views.html.recipes.render(recipes));
+           result = ok(views.html.recipes.render(recipes));
         }
         return result;
     }
@@ -84,15 +82,16 @@ public class RecipeController extends BaseController
         DynamicForm form = formFactory.form().bindFromRequest();
 
         String searchRecipeName = form.get("recipeName");
+
         Logger.debug(searchRecipeName);
 
         Query query = jpaApi.em().createQuery("SELECT r FROM Recipe r " +
                 "WHERE recipeName LIKE :searchRecipeName ORDER BY recipeName", Recipe.class);
         query.setParameter("searchRecipeName", searchRecipeName + "%");
+
         List<Recipe> recipes = query.getResultList();
 
-        //NEED TO PUT IN A 'NO RESULTS FOUND' PAGE FOR GENERIC SEARCHES
-
+        //TODO NEED TO PUT IN A 'NO RESULTS FOUND' PAGE FOR GENERIC SEARCHES
 
         return ok(views.html.recipes.render(recipes));
     }
@@ -100,7 +99,6 @@ public class RecipeController extends BaseController
     @Transactional
     public Result addRecipe()
     {
-
         List<String> errorMessages = new ArrayList<>();
         return ok(views.html.newrecipe.render());
     }
@@ -121,8 +119,6 @@ public class RecipeController extends BaseController
         recipeForm.serves = form.get("serves");
         recipeForm.instructions = form.get("recipeinstructions");
         recipeForm.source = form.get("recipesource");
-
-
 
         Recipe recipe = new Recipe();
 
@@ -168,23 +164,4 @@ public class RecipeController extends BaseController
 
         return redirect(routes.RecipeController.getRecipes());
     }
-
-    @Transactional(readOnly = true)
-    public Result getMealHistory()
-    {
-        DynamicForm form = formFactory.form().bindFromRequest();
-        Result result = unauthorized("INTRUDER ALERT");
-        int foodARtistId = Integer.parseInt(form.get("foodArtistId"));
-
-        if (loggedIn())
-        {
-            List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE foodArtistId =:id ORDER BY recipeName", Recipe.class)
-                    .setParameter("id", foodARtistId).getResultList();
-
-            result = ok(views.html.recipes.render(recipes));
-        }
-        return result;
-    }
-
-
 }
