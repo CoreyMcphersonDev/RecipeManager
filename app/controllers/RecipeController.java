@@ -100,7 +100,7 @@ public class RecipeController extends BaseController
     public Result addRecipe()
     {
         List<String> errorMessages = new ArrayList<>();
-        return ok(views.html.newrecipe.render());
+        return ok(views.html.newrecipe.render(new RecipeForm(), errorMessages));
     }
 
     @Transactional
@@ -119,6 +119,7 @@ public class RecipeController extends BaseController
         recipeForm.serves = form.get("serves");
         recipeForm.instructions = form.get("recipeinstructions");
         recipeForm.source = form.get("recipesource");
+        recipeForm.photo = form.get("photo");
 
         Recipe recipe = new Recipe();
 
@@ -129,6 +130,7 @@ public class RecipeController extends BaseController
         recipe.setServes(Integer.parseInt(recipeForm.serves));
         recipe.setInstructions(recipeForm.instructions);
         recipe.setSource(recipeForm.source);
+        recipe.setPhoto(recipeForm.photo);
 
         jpaApi.em().persist(recipe);
         result = redirect(routes.RecipeController.getRecipes());

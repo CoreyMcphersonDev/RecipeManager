@@ -24,9 +24,8 @@ public class MealHistory
     @Column(name = "tasteRatingId")
     private int tasteRatingId;
 
-    @Column(name = "mealMadeDate")
+   @Column(name = "mealMadeDate")
     private Date mealMadeDate;
-
 
     public int getMealHistoryId()
     {

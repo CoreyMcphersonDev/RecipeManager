@@ -5,6 +5,22 @@
     <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
     <script type="text/javascript" src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
 </head>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Recipe Wizard!</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Meal History</a></li>
+            <li><a href="#">Recipes</a></li>
+            <li><a href="#">Page 3</a></li>
+            <li><a href="#">Page 4</a></li>
+            <li><a href="#">Page 5</a></li>
+            <li><a href="#">Page 6</a></li>
+        </ul>
+    </div>
+</nav>
 
 <body>
 <div class="container">
@@ -16,23 +32,15 @@
             </h1></div>
         </div>
         <div class="row">
-            <div class="col-md-2"><label>Name:</label></div>
-            <div class="col-md-3"><input type="text" name="name" id="name" size="40" value="@recipe.getRecipeName"><br></div>
-            <div class="col-md-2"><label>Cook Time:</label></div>
-            <div class="col-md-3"><input type="number" name="recipeTimeCook" id="recipeTimeCook" size="10" value="@recipe.getTimeCook"><br></div>
-            <div class="col-md-2"><label>Prep Time:</label></div>
-            <div class="col-md-3"><input type="number" name="recipeTimePrepMinutes" id="recipeTimePrepMinutes" size="10" value="@recipe.getTimePrep"><br></div>
-            <div class="col-md-2"><label>Total Time:</label></div>
-            <div class="col-md-2"><input type="number" name="totalTime" id="totalTime" size="10" value="@recipe.getTotalTime"><br></div>
-            <div class="col-md-2"><label>Serves:</label></div>
-            <div class="col-md-3"><input type="number" name="serves" id="serves" value="@recipe.getServes"><br></div>
-            <div class="col-md-2"><label>Instructions:</label></div>
-            <div class="col-md-2"><input type="text" name="instructions" id="instructions" value="@recipe.getInstructions"><br></div>
-            <div class="col-md-2"><label>Source:</label></div>
-            <div class="col-md-2"><input type="text" name="recipeSource" id="recipeSource" value="@recipe.getSource"><br></div>
-        </div>
-        <div class="row">
-            <div class="col-md-2"><button class="btn" type="submit">Save</button></div>
+            <div class="col-md-8"><label>Cook Time: @recipe.getTimeCook</label></div>
+            <div class="col-md-8"><label>Prep Time: @recipe.getTimePrep</label></div>
+            <div class="col-md-8"><label>Total Time: @recipe.getTotalTime</label></div>
+            <div class="col-md-8"><label>Serves: @recipe.getServes</label></div>
+            <div class="col-md-8"><br></div>
+            <div class="col-md-8"><label>Instructions: @recipe.getInstructions</label></div>
+            <div class="col-md-8"><label>Source: @recipe.getSource</label></div>
+            <div class="col-md-8"><img src="@{routes.RecipeController.getPhoto(recipe.getRecipeId)}"></div>
+
         </div>
     </form>
 </div>
