@@ -42,6 +42,8 @@ public class LoginController extends BaseController
             String username = form.get("username");
             String password = form.get("password");
 
+            session().put("foodArtistUserName", username);
+
             String sql = "SELECT foodArtistId, foodArtistUserName, firstName, lastName, password, salt FROM foodArtist WHERE foodArtistUserName = :username";
 
             //SHOW ME WHAT YOU GOT!
@@ -59,6 +61,7 @@ public class LoginController extends BaseController
                 FoodArtistId foodArtistId = foodArtistIds.get(0);
                 byte[] hashedPassword = Password.hashPassword(password.toCharArray(), foodArtistId.getSalt());
                 byte[] dbPassword = foodArtistId.getPassword();
+
 
 
 

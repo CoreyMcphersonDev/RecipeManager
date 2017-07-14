@@ -60,9 +60,10 @@ public class RecipeController extends BaseController
 
         if (loggedIn())
         {
+
            List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r ORDER BY recipeName", Recipe.class).getResultList();
 
-           result = ok(views.html.recipes.render(recipes));
+           result = ok(views.html.recipes.render(recipes, session().get("foodArtistId")));
         }
         return result;
     }
@@ -73,7 +74,7 @@ public class RecipeController extends BaseController
         List<Recipe> recipes = jpaApi.em().createNativeQuery("SELECT recipeId, recipeName, recipeInstructions FROM Recipe r ORDER BY recipeName",
                 Recipe.class).getResultList();
 
-        return ok(views.html.recipes.render(recipes));
+        return ok(views.html.recipes.render(recipes, session().get("foodArtistId")));
     }
 
     @Transactional(readOnly = true)
@@ -93,7 +94,7 @@ public class RecipeController extends BaseController
 
         //TODO NEED TO PUT IN A 'NO RESULTS FOUND' PAGE FOR GENERIC SEARCHES
 
-        return ok(views.html.recipes.render(recipes));
+        return ok(views.html.recipes.render(recipes, session().get("foodArtistId")));
     }
 
     @Transactional

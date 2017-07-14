@@ -29,14 +29,17 @@ public class MealHistoryController extends BaseController
     {
         DynamicForm form = formFactory.form().bindFromRequest();
         Result result = unauthorized("INTRUDER ALERT");
-        int foodArtistId = Integer.parseInt(form.get("foodArtistId"));
+
+        //GET FROM SESSION INSTEAD OF FROM THE FORM
+        //int foodArtistId = Integer.parseInt(form.get("foodArtistId"));
+        String foodArtistUserName = session().get("foodArtistId");
 
         if (loggedIn())
         {
             List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE foodArtistId = :id ORDER BY recipeName", Recipe.class)
-                    .setParameter("id", foodArtistId).getResultList();
+                    .setParameter("id", session().get(foodArtistUserName)).getResultList();
 
-            result = ok(views.html.mealhistory.render(recipes));
+            result = ok(views.html.mealhistory.render(recipes, foodArtistUserName));
         }
         return result;
     }
