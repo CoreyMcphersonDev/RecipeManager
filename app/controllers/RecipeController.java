@@ -1,8 +1,6 @@
 package controllers;
 
-import models.MealHistory;
-import models.Recipe;
-import models.RecipeForm;
+import models.*;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.FormFactory;
@@ -50,7 +48,7 @@ public class RecipeController extends BaseController
         none.setRecipeId(-1);
         recipes.add(0, none);
 
-        return ok(views.html.recipe.render(recipe, recipes));
+        return ok(views.html.recipe.render(recipe, recipes, ingredient, ingredients));
     }
 
     @Transactional(readOnly = true)
@@ -97,12 +95,14 @@ public class RecipeController extends BaseController
         return ok(views.html.recipes.render(recipes, session().get("foodArtistId")));
     }
 
+
     @Transactional
     public Result addRecipe()
     {
         List<String> errorMessages = new ArrayList<>();
         return ok(views.html.newrecipe.render(new RecipeForm(), errorMessages));
     }
+
 
     @Transactional
     public Result addNewRecipe() throws Exception
@@ -111,6 +111,9 @@ public class RecipeController extends BaseController
         List<String> errorMessages = new ArrayList<>();
 
         DynamicForm form = formFactory.form().bindFromRequest();
+
+        IngredientForm ingredientForm = new IngredientForm();
+        ingredientForm.ingredientName = form.get("ingredientName");
 
         RecipeForm recipeForm = new RecipeForm();
         recipeForm.recipeName = form.get("recipename");
@@ -122,7 +125,10 @@ public class RecipeController extends BaseController
         recipeForm.source = form.get("recipesource");
         recipeForm.photo = form.get("photo");
 
+
+        Ingredient ingredient = new Ingredient();
         Recipe recipe = new Recipe();
+
 
         recipe.setRecipeName(recipeForm.recipeName);
         recipe.setTimeCook(Integer.parseInt(recipeForm.timeCook));
@@ -133,7 +139,11 @@ public class RecipeController extends BaseController
         recipe.setSource(recipeForm.source);
         recipe.setPhoto(recipeForm.photo);
 
+        ingredient.setIngredientName(ingredientForm.ingredientName);
+
         jpaApi.em().persist(recipe);
+        jpaApi.em().persist(ingredient);
+
         result = redirect(routes.RecipeController.getRecipes());
 
         return result;
@@ -143,6 +153,7 @@ public class RecipeController extends BaseController
     public Result updateRecipe()
     {
         DynamicForm form = formFactory.form().bindFromRequest();
+
         int recipeId = Integer.parseInt(form.get("id"));
         String name = form.get("recipeName");
         int timeCook = Integer.parseInt(form.get("recipeTimeCookMinutes"));
@@ -152,8 +163,13 @@ public class RecipeController extends BaseController
         String instructions = form.get("recipeInstructions");
         String source = form.get("recipeSource");
 
+        String ingredientName = form.get("ingredientName");
+
         Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
                 Recipe.class).setParameter("id", recipeId).getSingleResult();
+
+        Ingredient ingredient = jpaApi.em().createQuery("SELECT i FROM Ingredient i WHERE ingredientId = :id",
+                Ingredient.class).setParameter("id", ingredientId).getResultList();
 
         recipe.setRecipeName(name);
         recipe.setTimeCook(timeCook);
@@ -163,7 +179,10 @@ public class RecipeController extends BaseController
         recipe.setInstructions(instructions);
         recipe.setSource(source);
 
+        ingredient.setIngredientName(ingredientName);
+
         jpaApi.em().persist(recipe);
+        jpaApi.em().persist(ingredient);
 
         return redirect(routes.RecipeController.getRecipes());
     }
