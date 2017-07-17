@@ -25,7 +25,7 @@ public class MealHistory
     private int tasteRatingId;
 
    @Column(name = "mealMadeDate")
-    private Date mealMadeDate;
+   private Date mealMadeDate;
 
     public int getMealHistoryId()
     {

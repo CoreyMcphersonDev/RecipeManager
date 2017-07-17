@@ -27,6 +27,7 @@ POST    /foodartistAdd             controllers.FoodArtistController.addNewFoodAr
 POST    /foodartistUpdate          controllers.FoodArtistController.updateFoodArtist
 
 GET     /mealHistory               controllers.MealHistoryController.getMealHistory
+POST    /mealHistory
 
 
 

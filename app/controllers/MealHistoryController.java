@@ -1,6 +1,7 @@
 package controllers;
 
 
+import models.IngredientForm;
 import models.Recipe;
 import play.data.DynamicForm;
 import play.data.FormFactory;
@@ -9,6 +10,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MealHistoryController extends BaseController
@@ -44,7 +46,13 @@ public class MealHistoryController extends BaseController
         return result;
     }
 
+    @Transactional
+    public Result addMealHistory()
+    {
+        List<String> errorMessages = new ArrayList<>();
+        return ok(views.html.newmealhistory.render(new IngredientForm(), errorMessages));
 
+    }
 
 
 }

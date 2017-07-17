@@ -1,4 +1,4 @@
-@(recipes : List[Recipe], foodArtistId : String)
+@(ingredientForm: IngredientForm, errorMessages : List[String])
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,21 +22,12 @@
     </div>
 </nav>
 <body>
-
-<form method="GET" action="@routes.RecipeController.recipeSearch">
-    Recipe Name: <input type="text" name="recipeName" id="recipeName">
-    <button type="submit">Search</button>
+<form method="POST" action="@routes.IngredientController.addNewIngredient">
+    Ingredient Name:<input type="text" name="recipename" id="recipename" value="@recipeForm.recipeName"><br>
+        <button type="submit">Save Ingredient</button>
 </form>
-
-<table>
-    @for(recipe <- recipes) {
-    <tr>
-        <td>
-            <a href="/recipe/@recipe.getRecipeId">@recipe.getRecipeName</a>
-        </td>
-        }
-    </tr>
-</table>
-
+@for(errorMessage <- errorMessages){
+<h3>@errorMessage</h3>
+}
 </body>
 </html>

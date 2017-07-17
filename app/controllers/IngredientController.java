@@ -2,6 +2,8 @@ package controllers;
 
 
 import models.Ingredient;
+import models.IngredientForm;
+import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -10,6 +12,7 @@ import views.html.recipes;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientController extends BaseController
@@ -27,7 +30,7 @@ public class IngredientController extends BaseController
     @Transactional(readOnly = true)
     public Result getIngredient(Integer id)
     {
-        Ingredient ingredient =
+        List<Ingredient> ingredient =
                jpaApi.em().createQuery("SELECT i FROM Ingredient WHERE ingredientId = :id", Ingredient.class).setParameter("id", id).getResultList();
 
         Query ingredientsQuery = jpaApi.em().createQuery("SELECT i FROM Ingredient i WHERE ingredientId <> :id ORDER BY ingredientName", Ingredient.class);
@@ -59,6 +62,35 @@ public class IngredientController extends BaseController
                 Ingredient.class).getResultList();
 
         return ok(views.html.recipes.render(ingredients));
+
+    }
+
+    @Transactional
+    public Result addIngredient()
+    {
+        List<String> errorMessages = new ArrayList<>();
+        return ok(views.html.newingredient.render(new IngredientForm(), errorMessages));
+    }
+
+    @Transactional
+    public Result addNewIngredient() throws Exception
+    {
+        Result result;
+
+        List<String>errorMessages = new ArrayList<>();
+
+        DynamicForm form = formFactory.form().bindFromRequest();
+
+        IngredientForm ingredientForm = new IngredientForm();
+        ingredientForm.ingredientName = form.get("ingredientName");
+
+        Ingredient ingredient = new Ingredient();
+
+        ingredient.setIngredientName(ingredientForm.ingredientName);
+
+        jpaApi.em().persist(ingredient);
+
+        result = redirect(routes.IngredientController.getIngredients());
 
     }
 

@@ -168,8 +168,8 @@ public class RecipeController extends BaseController
         Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
                 Recipe.class).setParameter("id", recipeId).getSingleResult();
 
-        Ingredient ingredient = jpaApi.em().createQuery("SELECT i FROM Ingredient i WHERE ingredientId = :id",
-                Ingredient.class).setParameter("id", ingredientId).getResultList();
+        List<Ingredient> ingredient = jpaApi.em().createQuery("SELECT i FROM Ingredient i WHERE ingredientId = :id",
+                Ingredient.class).setParameter("id", ingredientName).getResultList();
 
         recipe.setRecipeName(name);
         recipe.setTimeCook(timeCook);
