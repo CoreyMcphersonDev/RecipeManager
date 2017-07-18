@@ -1,4 +1,4 @@
-@(ingredientForm: IngredientForm, errorMessages : List[String])
+@(ingredients : List[Ingredient])
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,12 +22,21 @@
     </div>
 </nav>
 <body>
-<form method="POST" action="@routes.IngredientController.addNewIngredient">
-    Ingredient Name:<input type="text" name="ingredientname" id="ingredientname" value="@ingredientForm.ingredientName"><br>
-        <button type="submit">Save Ingredient</button>
+
+<form method="GET" action="@routes.IngredientController.getIngredients">
+    Ingredient: <input type="text" name="ingredientName" id="ingredientName">
+    <button type="submit">Search</button>
 </form>
-@for(errorMessage <- errorMessages){
-<h3>@errorMessage</h3>
-}
+
+<table>
+    @for(ingredient <- ingredients) {
+    <tr>
+        <td>
+            <a href="/recipe/@ingredient.getIngredientId">@ingredient.getIngredientName</a>
+        </td>
+        }
+    </tr>
+</table>
+
 </body>
 </html>

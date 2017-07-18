@@ -1,4 +1,4 @@
-@(recipe : Recipe, recipes : List[Recipe], ingredient : Ingredient, ingredeints : List[Ingredient])
+@(recipe : Recipe, ingredients : List[Ingredient])
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +36,8 @@
             <div class="col-md-8"><label>Prep Time: @recipe.getTimePrep</label></div>
             <div class="col-md-8"><label>Total Time: @recipe.getTotalTime</label></div>
             <div class="col-md-8"><label>Serves: @recipe.getServes</label></div>
+
+
             <div class="col-md-8"><br></div>
             <div class="col-md-8"><label>Instructions: @recipe.getInstructions</label></div>
             <div class="col-md-8"><label>Source: @recipe.getSource</label></div>

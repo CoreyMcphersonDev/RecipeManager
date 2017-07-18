@@ -48,7 +48,14 @@ public class RecipeController extends BaseController
         none.setRecipeId(-1);
         recipes.add(0, none);
 
-        return ok(views.html.recipe.render(recipe, recipes, ingredient, ingredients));
+        List<Ingredient> ingredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId =:id" +
+                " ORDER BY ingredientId", Ingredient.class).setParameter("id", id).getResultList();
+
+        Query ingredientsQuery = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId <> :id ORDER BY recipeid", Ingredient.class);
+
+
+
+        return ok(views.html.recipe.render(recipe, ingredients));
     }
 
     @Transactional(readOnly = true)
@@ -60,6 +67,7 @@ public class RecipeController extends BaseController
         {
 
            List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r ORDER BY recipeName", Recipe.class).getResultList();
+
 
            result = ok(views.html.recipes.render(recipes, session().get("foodArtistId")));
         }
@@ -163,13 +171,16 @@ public class RecipeController extends BaseController
         String instructions = form.get("recipeInstructions");
         String source = form.get("recipeSource");
 
-        String ingredientName = form.get("ingredientName");
+        //String ingredientName = form.get("ingredientName");
 
-        Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
+        String ingredientId = form.get("ingredientId");
+
+        Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r join RecipeIngredient WHERE recipeId = :id",
                 Recipe.class).setParameter("id", recipeId).getSingleResult();
 
-        List<Ingredient> ingredient = jpaApi.em().createQuery("SELECT i FROM Ingredient i WHERE ingredientId = :id",
-                Ingredient.class).setParameter("id", ingredientName).getResultList();
+        List<RecipeIngredient> ingredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId = :id",
+                RecipeIngredient.class).setParameter("id", recipeId).getResultList();
+
 
         recipe.setRecipeName(name);
         recipe.setTimeCook(timeCook);
@@ -179,10 +190,9 @@ public class RecipeController extends BaseController
         recipe.setInstructions(instructions);
         recipe.setSource(source);
 
-        ingredient.setIngredientName(ingredientName);
 
         jpaApi.em().persist(recipe);
-        jpaApi.em().persist(ingredient);
+        jpaApi.em().persist(ingredients);
 
         return redirect(routes.RecipeController.getRecipes());
     }

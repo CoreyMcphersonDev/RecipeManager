@@ -3,6 +3,7 @@ package controllers;
 
 import models.IngredientForm;
 import models.Recipe;
+import models.RecipeForm;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -50,8 +51,7 @@ public class MealHistoryController extends BaseController
     public Result addMealHistory()
     {
         List<String> errorMessages = new ArrayList<>();
-        return ok(views.html.newmealhistory.render(new IngredientForm(), errorMessages));
-
+        return ok(views.html.newmealhistory.render(new RecipeForm(), errorMessages));
     }
 
 

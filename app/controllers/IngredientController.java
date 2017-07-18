@@ -42,7 +42,7 @@ public class IngredientController extends BaseController
         none.setIngredientId(-1);
         ingredients.add(0, none);
 
-        return ok(views.html.recipe.render(ingredient, ingredients));
+        return redirect(routes.RecipeController.getRecipe(id));
     }
 
     @Transactional
@@ -51,11 +51,11 @@ public class IngredientController extends BaseController
         List<Ingredient> ingredients = jpaApi.em()
                 .createQuery("SELECT i FROM Ingredient i ORDER BY ingredientName", Ingredient.class).getResultList();
 
-        return ok(views.html.recipes.render(ingredients));
+        return ok(views.html.ingredients.render(ingredients));
 
     }
 
-    @Transactional
+    /*@Transactional
     public Result getIngredientsNativeQuery()
     {
         List<Ingredient> ingredients = jpaApi.em().createNativeQuery("SELECT ingredientId, ingredientName FROM Ingredient i ORDER BY ingredientName",
@@ -63,7 +63,7 @@ public class IngredientController extends BaseController
 
         return ok(views.html.recipes.render(ingredients));
 
-    }
+    }*/
 
     @Transactional
     public Result addIngredient()
@@ -90,7 +90,7 @@ public class IngredientController extends BaseController
 
         jpaApi.em().persist(ingredient);
 
-        result = redirect(routes.IngredientController.getIngredients());
+       return result = redirect(routes.IngredientController.getIngredients());
 
     }
 

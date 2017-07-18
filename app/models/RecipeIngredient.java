@@ -14,11 +14,12 @@ public class RecipeIngredient
     @Column(name = "recipeId")
     private int recipeId;
 
+
     @Column(name = "ingredientId")
     private int ingredientId;
 
     @Column(name = "recipeIngredientAmount")
-    private int recipeIngredientAmount;
+    private double recipeIngredientAmount;
 
     @Column(name = "unitMeasure")
     private int unitMeasure;
@@ -47,7 +48,7 @@ public class RecipeIngredient
         this.ingredientId = ingredientId;
     }
 
-    public int getRecipeIngredientAmount()
+    public double getRecipeIngredientAmount()
     {
         return recipeIngredientAmount;
     }
@@ -75,5 +76,10 @@ public class RecipeIngredient
     public void setIngredientNote(String ingredientNote)
     {
         this.ingredientNote = ingredientNote;
+    }
+
+    public void setRecipeIngredientAmount(double recipeIngredientAmount)
+    {
+        this.recipeIngredientAmount = recipeIngredientAmount;
     }
 }

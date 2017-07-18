@@ -27,7 +27,12 @@ POST    /foodartistAdd             controllers.FoodArtistController.addNewFoodAr
 POST    /foodartistUpdate          controllers.FoodArtistController.updateFoodArtist
 
 GET     /mealHistory               controllers.MealHistoryController.getMealHistory
-POST    /mealHistory
+POST    /mealHistoryAdd            controllers.MealHistoryController.addMealHistory
+
+
+GET     /ingredients               controllers.IngredientController.getIngredients
+GET     /ingredientAdd             controllers.IngredientController.addIngredient
+POST    /ingredientAdd             controllers.IngredientController.addNewIngredient
 
 
 
