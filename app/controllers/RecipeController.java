@@ -51,9 +51,6 @@ public class RecipeController extends BaseController
         List<RecipeIngredient> recipeIngredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId =:id" +
                 " ORDER BY ingredientId", RecipeIngredient.class).setParameter("id", id).getResultList();
 
-        Query ingredientsQuery = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId <> :id ORDER BY recipeid", Ingredient.class);
-
-
         return ok(views.html.recipe.render(recipe, recipeIngredients ));
     }
 

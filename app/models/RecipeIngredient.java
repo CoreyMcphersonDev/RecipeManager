@@ -24,7 +24,7 @@ public class RecipeIngredient
     private BigDecimal recipeIngredientAmount;
 
     @Column(name = "unitMeasure")
-    private int unitMeasure;
+    private String unitMeasure;
 
     @Column(name = "ingredientNote")
     private String ingredientNote;
@@ -60,12 +60,12 @@ public class RecipeIngredient
         this.recipeIngredientAmount = recipeIngredientAmount;
     }
 
-    public int getUnitMeasure()
+    public String getUnitMeasure()
     {
         return unitMeasure;
     }
 
-    public void setUnitMeasure(int unitMeasure)
+    public void setUnitMeasure(String unitMeasure)
     {
         this.unitMeasure = unitMeasure;
     }
