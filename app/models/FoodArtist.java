@@ -21,7 +21,7 @@ public class FoodArtist
 
     @Id
     @Column(name = "foodArtistId")
-    private int foodartistId;
+    private int foodArtistId;
 
     @Column(name = "foodArtistUserName")
     private String userName;
@@ -43,12 +43,12 @@ public class FoodArtist
 
     public int getFoodartistId()
     {
-        return foodartistId;
+        return foodArtistId;
     }
 
     public void setFoodartistId(int foodartistId)
     {
-        this.foodartistId = foodartistId;
+        this.foodArtistId = foodartistId;
     }
 
     public String getfoodArtistUserName()
@@ -101,4 +101,8 @@ public class FoodArtist
         this.salt = salt;
     }
 
+    public void setFoodArtistId(int foodArtistId)
+    {
+        this.foodArtistId = foodArtistId;
+    }
 }

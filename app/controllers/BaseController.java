@@ -6,11 +6,13 @@ import play.mvc.Controller;
 public class BaseController extends Controller
 {
     private static String usernameToken = "username";
+    private static String foodArtistIdToken = "foodArtistId";
 
 
-    public void login(String userName)
+    public void login(String userName, int foodArtistId)
     {
         session().put(usernameToken, userName);
+        session().put(foodArtistIdToken, ""+foodArtistId);
     }
 
     public boolean loggedIn()
@@ -25,4 +27,12 @@ public class BaseController extends Controller
         session().remove(usernameToken);
     }
 
+
+    public int getFoodArtistId()
+    {
+        int foodArtistId = Integer.parseInt(session().get(foodArtistIdToken));
+
+        return foodArtistId;
+
+    }
 }

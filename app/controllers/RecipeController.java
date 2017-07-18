@@ -60,14 +60,13 @@ public class RecipeController extends BaseController
     @Transactional(readOnly = true)
     public Result getRecipes()
     {
-        String username = session().get("username");
         Result result = unauthorized("INTRUDER ALERT");
 
         if (loggedIn())
         {
            //TODO: combine sql query + foodartistid from session (put in session in login controller)
            List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE foodArtistId = :id ORDER BY recipeName", Recipe.class)
-                   .setParameter("id", session().get(username)).getResultList();
+                   .setParameter("id", getFoodArtistId()).getResultList();
 
 
            result = ok(views.html.recipes.render(recipes));
@@ -78,12 +77,12 @@ public class RecipeController extends BaseController
     @Transactional
     public Result getRecipesNativeQuery()
     {
-        String username = session().get("username");
+        String foodArtistId = session().get("foodArtistId");
 
 
         List<Recipe> recipes = jpaApi.em().createNativeQuery("SELECT recipeId, recipeName, recipeInstructions " +
                         "FROM Recipe r ORDER BY recipeName",
-                Recipe.class).setParameter("id", session().get(username)).getResultList();
+                Recipe.class).setParameter("id", session().get(foodArtistId)).getResultList();
 
         return ok(views.html.recipes.render(recipes));
     }

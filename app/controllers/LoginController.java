@@ -46,15 +46,7 @@ public class LoginController extends BaseController
             String username = form.get("username");
             String password = form.get("password");
 
-            //session().put("username", username);
-           //Logger.debug(username);
-
-
-            String sql = "SELECT foodArtistId, foodArtistUserName, firstName, lastName, password, salt FROM foodArtist WHERE foodArtistUsername = :username";
-
-
-
-            //session().put("foodArtistId", username);
+            String sql = "SELECT foodArtistId, foodArtistUserName, firstName, lastName, password, salt FROM foodArtist WHERE foodArtistUserName = :username";
 
 
             //SHOW ME WHAT YOU GOT!
@@ -65,23 +57,17 @@ public class LoginController extends BaseController
             List<FoodArtistId> foodArtistIds = jpaApi.em().createNativeQuery(sql, FoodArtistId.class).
                     setParameter("username", username).
                     getResultList();
-            
 
             if (foodArtistIds.size() == 1)
             {
-                //CURRENTLY LOGIN PAGE REQUIRES foodArtistId, NOT foodArtstName!
                 Logger.debug("got user" + username);
                 FoodArtistId foodArtistId = foodArtistIds.get(0);
                 byte[] hashedPassword = Password.hashPassword(password.toCharArray(), foodArtistId.getSalt());
                 byte[] dbPassword = foodArtistId.getPassword();
 
-
-
-
                 if (Arrays.equals(hashedPassword, dbPassword))
                 {
-
-                    login(username);
+                    login(username, foodArtistId.getFoodArtistId());
                     result = redirect(routes.RecipeController.getRecipes());
                 }
             }

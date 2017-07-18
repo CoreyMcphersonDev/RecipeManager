@@ -55,14 +55,13 @@ public class IngredientController extends BaseController
 
     }
 
-    /*@Transactional
+   /* @Transactional
     public Result getIngredientsNativeQuery()
     {
         List<Ingredient> ingredients = jpaApi.em().createNativeQuery("SELECT ingredientId, ingredientName FROM Ingredient i ORDER BY ingredientName",
                 Ingredient.class).getResultList();
 
-        return ok(views.html.recipes.render(ingredients));
-
+        return ok(views.html.recipe.render(ingredients));
     }*/
 
     @Transactional
