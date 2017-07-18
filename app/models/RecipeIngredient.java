@@ -5,6 +5,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 @Entity
 @Table(name = "recipeIngredient")
@@ -19,7 +21,7 @@ public class RecipeIngredient
     private int ingredientId;
 
     @Column(name = "recipeIngredientAmount")
-    private double recipeIngredientAmount;
+    private BigDecimal recipeIngredientAmount;
 
     @Column(name = "unitMeasure")
     private int unitMeasure;
@@ -48,12 +50,12 @@ public class RecipeIngredient
         this.ingredientId = ingredientId;
     }
 
-    public double getRecipeIngredientAmount()
+    public BigDecimal getRecipeIngredientAmount()
     {
         return recipeIngredientAmount;
     }
 
-    public void setRecipeIngredientAmount(int recipeIngredientAmount)
+    public void setRecipeIngredientAmount(BigDecimal recipeIngredientAmount)
     {
         this.recipeIngredientAmount = recipeIngredientAmount;
     }
@@ -78,8 +80,5 @@ public class RecipeIngredient
         this.ingredientNote = ingredientNote;
     }
 
-    public void setRecipeIngredientAmount(double recipeIngredientAmount)
-    {
-        this.recipeIngredientAmount = recipeIngredientAmount;
-    }
+
 }

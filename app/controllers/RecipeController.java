@@ -48,28 +48,29 @@ public class RecipeController extends BaseController
         none.setRecipeId(-1);
         recipes.add(0, none);
 
-        List<Ingredient> ingredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId =:id" +
-                " ORDER BY ingredientId", Ingredient.class).setParameter("id", id).getResultList();
+        List<RecipeIngredient> recipeIngredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId =:id" +
+                " ORDER BY ingredientId", RecipeIngredient.class).setParameter("id", id).getResultList();
 
         Query ingredientsQuery = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId <> :id ORDER BY recipeid", Ingredient.class);
 
 
-
-        return ok(views.html.recipe.render(recipe, ingredients));
+        return ok(views.html.recipe.render(recipe, recipeIngredients ));
     }
 
     @Transactional(readOnly = true)
     public Result getRecipes()
     {
+        String username = session().get("username");
         Result result = unauthorized("INTRUDER ALERT");
 
         if (loggedIn())
         {
+           //TODO: combine sql query + foodartistid from session (put in session in login controller)
+           List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE foodArtistId = :id ORDER BY recipeName", Recipe.class)
+                   .setParameter("id", session().get(username)).getResultList();
 
-           List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r ORDER BY recipeName", Recipe.class).getResultList();
 
-
-           result = ok(views.html.recipes.render(recipes, session().get("foodArtistId")));
+           result = ok(views.html.recipes.render(recipes));
         }
         return result;
     }
@@ -77,10 +78,14 @@ public class RecipeController extends BaseController
     @Transactional
     public Result getRecipesNativeQuery()
     {
-        List<Recipe> recipes = jpaApi.em().createNativeQuery("SELECT recipeId, recipeName, recipeInstructions FROM Recipe r ORDER BY recipeName",
-                Recipe.class).getResultList();
+        String username = session().get("username");
 
-        return ok(views.html.recipes.render(recipes, session().get("foodArtistId")));
+
+        List<Recipe> recipes = jpaApi.em().createNativeQuery("SELECT recipeId, recipeName, recipeInstructions " +
+                        "FROM Recipe r ORDER BY recipeName",
+                Recipe.class).setParameter("id", session().get(username)).getResultList();
+
+        return ok(views.html.recipes.render(recipes));
     }
 
     @Transactional(readOnly = true)
@@ -100,7 +105,7 @@ public class RecipeController extends BaseController
 
         //TODO NEED TO PUT IN A 'NO RESULTS FOUND' PAGE FOR GENERIC SEARCHES
 
-        return ok(views.html.recipes.render(recipes, session().get("foodArtistId")));
+        return ok(views.html.recipes.render(recipes));
     }
 
 
@@ -175,7 +180,7 @@ public class RecipeController extends BaseController
 
         String ingredientId = form.get("ingredientId");
 
-        Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r join RecipeIngredient WHERE recipeId = :id",
+        Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
                 Recipe.class).setParameter("id", recipeId).getSingleResult();
 
         List<RecipeIngredient> ingredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId = :id",
