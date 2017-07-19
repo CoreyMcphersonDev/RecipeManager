@@ -1,17 +1,17 @@
 package models;
 
-
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
+
+
 
 @Entity
-@Table(name = "recipeIngredient")
-public class RecipeIngredient implements Serializable
+
+public class IngredientItem implements Serializable
 {
     @Id
     @Column(name = "recipeId")
@@ -21,6 +21,9 @@ public class RecipeIngredient implements Serializable
     @Column(name = "ingredientId")
     private int ingredientId;
 
+    @Column(name = "ingredientName")
+    private String ingredientName;
+
     @Column(name = "recipeIngredientAmount")
     private BigDecimal recipeIngredientAmount;
 
@@ -29,8 +32,6 @@ public class RecipeIngredient implements Serializable
 
     @Column(name = "ingredientNote")
     private String ingredientNote;
-
-
 
 
     public int getRecipeId()
@@ -51,6 +52,16 @@ public class RecipeIngredient implements Serializable
     public void setIngredientId(int ingredientId)
     {
         this.ingredientId = ingredientId;
+    }
+
+    public String getIngredientName()
+    {
+        return ingredientName;
+    }
+
+    public void setIngredientName(String ingredientName)
+    {
+        this.ingredientName = ingredientName;
     }
 
     public BigDecimal getRecipeIngredientAmount()
@@ -82,6 +93,4 @@ public class RecipeIngredient implements Serializable
     {
         this.ingredientNote = ingredientNote;
     }
-
-
 }

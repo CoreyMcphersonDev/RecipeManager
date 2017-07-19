@@ -39,13 +39,16 @@ public class RecipeController extends BaseController
     @Transactional(readOnly = true)
     public Result getRecipe(Integer Id)
     {
-        //TODO: need to set parameter for "id" to = RecipeId from recipeIngredient
         Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
                 Recipe.class).setParameter("id", Id).getSingleResult();
 
-        List<Ingredient> ingredients = jpaApi.em().
-                createQuery("SELECT i FROM Ingredient i JOIN RecipeIngredient r ON r.ingredientId = i.ingredientId WHERE recipeId = :id",
-                        Ingredient.class).setParameter("id", Id).getResultList();
+        List<IngredientItem> ingredients = jpaApi.em().
+                createNativeQuery("SELECT r.recipeId, r.ingredientId, i.ingredientName, " +
+                                "r.recipeIngredientAmount, r.unitMeasure, r.ingredientNote " +
+                                "FROM Ingredient i JOIN RecipeIngredient r ON r.ingredientId = i.ingredientId WHERE r.recipeId = :id",
+                        IngredientItem.class).setParameter("id", Id).getResultList();
+
+
 
         Query recipeIngredientsQuery = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId <> :id " +
                 "ORDER BY ingredientId", RecipeIngredient.class);
@@ -63,7 +66,7 @@ public class RecipeController extends BaseController
     @Transactional(readOnly = true)
     public Result getRecipes()
     {
-        Result result = unauthorized("INTRUDER ALERT");
+        Result result = unauthorized("NO SOUP FOR YOU!");
 
         if (loggedIn())
         {

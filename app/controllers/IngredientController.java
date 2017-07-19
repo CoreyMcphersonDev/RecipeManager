@@ -28,23 +28,6 @@ public class IngredientController extends BaseController
         this.jpaApi = jpaApi;
     }
 
-    @Transactional(readOnly = true)
-    public Result getIngredient(Integer id)
-    {
-        List<Ingredient> ingredient =
-               jpaApi.em().createQuery("SELECT i FROM Ingredient WHERE ingredientId = :id", Ingredient.class).setParameter("id", id).getResultList();
-
-        Query ingredientsQuery = jpaApi.em().createQuery("SELECT i FROM Ingredient i WHERE ingredientId <> :id ORDER BY ingredientName", Ingredient.class);
-
-        ingredientsQuery.setParameter("id", id).getResultList();
-
-        List<Ingredient> ingredients = ingredientsQuery.getResultList();
-        Ingredient none = new Ingredient();
-        none.setIngredientId(-1);
-        ingredients.add(0, none);
-
-        return ok(views.html.ingredients.render(ingredient));
-    }
 
     @Transactional
     public Result getIngredients()
@@ -53,7 +36,6 @@ public class IngredientController extends BaseController
                 .createQuery("SELECT i FROM Ingredient i ORDER BY ingredientName", Ingredient.class).getResultList();
 
         return ok(views.html.ingredients.render(ingredients));
-
     }
 
     @Transactional
@@ -90,9 +72,7 @@ public class IngredientController extends BaseController
 
         jpaApi.em().persist(ingredient);
 
-       result = redirect(routes.IngredientController.getIngredients());
-
-       return result;
+       return result = redirect(routes.IngredientController.getIngredients());
     }
 
     @Transactional(readOnly = true)

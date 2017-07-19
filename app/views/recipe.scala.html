@@ -1,4 +1,4 @@
-@(recipe : Recipe, ingredients : List[Ingredient])
+@(recipe : Recipe, ingredients : List[IngredientItem])
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,21 +30,22 @@
             <div class="col-md-6"><h1>@recipe.getRecipeName</h1></div>
         </div>
         <div class="row">
-            <div class="col-md-8"><label>Cook Time: @recipe.getTimeCook</label></div>
-            <div class="col-md-8"><label>Prep Time: @recipe.getTimePrep</label></div>
-            <div class="col-md-8"><label>Total Time: @recipe.getTotalTime</label></div>
-            <div class="col-md-8"><label>Serves: @recipe.getServes</label></div>
-
-
+            <div class="col-md-8"><label>Cook Time:</label> @recipe.getTimeCook</div>
+            <div class="col-md-8"><label>Prep Time:</label> @recipe.getTimePrep</div>
+            <div class="col-md-8"><label>Total Time:</label> @recipe.getTotalTime</div>
+            <div class="col-md-8"><label>Serves:</label> @recipe.getServes</div><br>
+            <div class="col-md-8"><br></div>
+            <div class="col-md-8"> <label>Ingredients:</label></div>
             @for(ingredient <- ingredients){
-                <div class="col-md-8"></div><label>@ingredient.getIngredientName</label>
+            <div class="col-md-8">@ingredient.getIngredientName @ingredient.getRecipeIngredientAmount @ingredient.getUnitMeasure @ingredient.getIngredientNote</div><br>
+            <div class="col-md-8"></div>
+
                 }
 
-
-
             <div class="col-md-8"><br></div>
-            <div class="col-md-8"><label>Instructions: @recipe.getInstructions</label></div>
-            <div class="col-md-8"><label>Source: @recipe.getSource</label></div>
+            <div class="col-md-12"><label>Instructions:</label> @recipe.getInstructions</div><br>
+            <div class="col-md-8"><br></div>
+            <div class="col-md-8"><label>Source:</label> @recipe.getSource</div>
         </div>
     </form>
 

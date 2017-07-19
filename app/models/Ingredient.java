@@ -18,6 +18,7 @@ public class Ingredient
     @Column(name = "ingredientName")
     private String ingredientName;
 
+
     public int getIngredientId()
     {
         return ingredientId;
