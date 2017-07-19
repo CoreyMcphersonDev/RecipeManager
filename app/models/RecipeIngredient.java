@@ -5,18 +5,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 @Entity
 @Table(name = "recipeIngredient")
-public class RecipeIngredient
+public class RecipeIngredient implements Serializable
 {
     @Id
     @Column(name = "recipeId")
     private int recipeId;
 
-
+    @Id
     @Column(name = "ingredientId")
     private int ingredientId;
 
@@ -78,4 +79,6 @@ public class RecipeIngredient
     {
         this.ingredientNote = ingredientNote;
     }
+
+
 }

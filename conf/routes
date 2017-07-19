@@ -37,6 +37,7 @@ POST    /ingredientAdd             controllers.IngredientController.addNewIngred
 
 
 
+
 GET     /login                     controllers.LoginController.getLogin
 POST    /login                     controllers.LoginController.login
 

@@ -23,20 +23,18 @@
 </nav>
 <body>
 
+
 <form method="GET" action="@routes.IngredientController.ingredientSearch">
     Ingredient: <input type="text" name="ingredientName" id="ingredientName">
     <button type="submit">Search</button>
 </form>
 
-<table>
+<div class = "col-md-1">
     @for(ingredient <- ingredients) {
-    <tr>
-        <td>
-            @ingredient.getIngredientName</a>
-        </td>
+@ingredient.getIngredientName
         }
-    </tr>
-</table>
+    </div>
+
 
 </body>
 </html>

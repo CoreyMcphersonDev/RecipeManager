@@ -6,8 +6,12 @@ import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
+import play.mvc.BodyParser;
+import play.mvc.Http;
 import play.mvc.Result;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -33,25 +37,27 @@ public class RecipeController extends BaseController
     }
 
     @Transactional(readOnly = true)
-    public Result getRecipe(Integer id)
+    public Result getRecipe(Integer Id)
     {
-        Recipe recipe =
-                jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id", Recipe.class)
-                        .setParameter("id", id).getSingleResult();
+        //TODO: need to set parameter for "id" to = RecipeId from recipeIngredient
+        Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
+                Recipe.class).setParameter("id", Id).getSingleResult();
 
-        Query recipesQuery = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId <> :id ORDER BY recipeName", Recipe.class);
+        List<Ingredient> ingredients = jpaApi.em().
+                createQuery("SELECT i FROM Ingredient i JOIN RecipeIngredient r ON r.ingredientId = i.ingredientId WHERE recipeId = :id",
+                        Ingredient.class).setParameter("id", Id).getResultList();
 
-        recipesQuery.setParameter("id", id).getResultList();
+        Query recipeIngredientsQuery = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId <> :id " +
+                "ORDER BY ingredientId", RecipeIngredient.class);
 
-        List<Recipe> recipes = recipesQuery.getResultList();
-        Recipe none = new Recipe();
-        none.setRecipeId(-1);
-        recipes.add(0, none);
+        recipeIngredientsQuery.setParameter("id", Id);
+        List<RecipeIngredient> recipeIngredients = recipeIngredientsQuery.getResultList();
 
-        List<RecipeIngredient> recipeIngredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId =:id" +
-                " ORDER BY ingredientId", RecipeIngredient.class).setParameter("id", id).getResultList();
+        RecipeIngredient none = new RecipeIngredient();
+        none.setIngredientId(-1);
+        recipeIngredients.add(0, none);
 
-        return ok(views.html.recipe.render(recipe, recipeIngredients ));
+        return (ok(views.html.recipe.render(recipe, ingredients)));
     }
 
     @Transactional(readOnly = true)
@@ -115,6 +121,8 @@ public class RecipeController extends BaseController
     public Result addNewRecipe() throws Exception
     {
         Result result;
+
+        //TODO: define error messages
         List<String> errorMessages = new ArrayList<>();
 
         DynamicForm form = formFactory.form().bindFromRequest();
@@ -130,7 +138,6 @@ public class RecipeController extends BaseController
         recipeForm.serves = form.get("serves");
         recipeForm.instructions = form.get("recipeinstructions");
         recipeForm.source = form.get("recipesource");
-        recipeForm.photo = form.get("photo");
 
         ingredientForm.ingredientName = form.get("inredientName");
 
@@ -146,7 +153,6 @@ public class RecipeController extends BaseController
         recipe.setServes(Integer.parseInt(recipeForm.serves));
         recipe.setInstructions(recipeForm.instructions);
         recipe.setSource(recipeForm.source);
-        recipe.setPhoto(recipeForm.photo);
 
 
         ingredient.setIngredientName(ingredientForm.ingredientName);
@@ -179,6 +185,7 @@ public class RecipeController extends BaseController
         Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
                 Recipe.class).setParameter("id", recipeId).getSingleResult();
 
+
         List<RecipeIngredient> ingredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId = :id",
                 RecipeIngredient.class).setParameter("id", recipeId).getResultList();
 
@@ -191,9 +198,12 @@ public class RecipeController extends BaseController
         recipe.setInstructions(instructions);
         recipe.setSource(source);
 
+
         jpaApi.em().persist(recipe);
         jpaApi.em().persist(ingredients);
 
+
         return redirect(routes.RecipeController.getRecipes());
     }
+
 }

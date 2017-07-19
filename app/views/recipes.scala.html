@@ -28,15 +28,12 @@
     <button type="submit">Search</button>
 </form>
 
-<table>
-    @for(recipe <- recipes) {
-    <tr>
-        <td>
-            <a href="/recipe/@recipe.getRecipeId">@recipe.getRecipeName</a>
-        </td>
+<ul class="recipes">
+     @for(recipe <- recipes) {
+    <li class="recipes-item active"><a href="/recipe/@recipe.getRecipeId">@recipe.getRecipeName</a>
         }
-    </tr>
-</table>
+    </li>
+</ul>
 
 </body>
 </html>

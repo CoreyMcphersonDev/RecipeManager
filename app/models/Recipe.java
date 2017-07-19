@@ -114,16 +114,6 @@ public class Recipe
         this.serves = serves;
     }
 
-    public String getPhoto()
-    {
-        return photo;
-    }
-
-    public void setPhoto(String photo)
-    {
-        this.photo = photo;
-    }
-
     public String getPhotoPath()
     {
         return photoPath;

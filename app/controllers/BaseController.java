@@ -7,12 +7,14 @@ public class BaseController extends Controller
 {
     private static String usernameToken = "username";
     private static String foodArtistIdToken = "foodArtistId";
+    private static String recipeIdToken = "recipeId";
 
 
     public void login(String userName, int foodArtistId)
     {
         session().put(usernameToken, userName);
         session().put(foodArtistIdToken, ""+foodArtistId);
+
     }
 
     public boolean loggedIn()
@@ -33,6 +35,14 @@ public class BaseController extends Controller
         int foodArtistId = Integer.parseInt(session().get(foodArtistIdToken));
 
         return foodArtistId;
+    }
+
+    public int getRecipeId(String recipeIdToken)
+    {
+        session().put(recipeIdToken, ""+recipeIdToken);
+        int recipeId = Integer.parseInt(session().get(recipeIdToken));
+
+        return recipeId;
 
     }
 }
