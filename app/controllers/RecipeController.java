@@ -61,10 +61,8 @@ public class RecipeController extends BaseController
 
         if (loggedIn())
         {
-           //TODO: combine sql query + foodartistid from session (put in session in login controller)
            List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE foodArtistId = :id ORDER BY recipeName", Recipe.class)
                    .setParameter("id", getFoodArtistId()).getResultList();
-
 
            result = ok(views.html.recipes.render(recipes));
         }
@@ -134,6 +132,8 @@ public class RecipeController extends BaseController
         recipeForm.source = form.get("recipesource");
         recipeForm.photo = form.get("photo");
 
+        ingredientForm.ingredientName = form.get("inredientName");
+
 
         Ingredient ingredient = new Ingredient();
         Recipe recipe = new Recipe();
@@ -147,6 +147,7 @@ public class RecipeController extends BaseController
         recipe.setInstructions(recipeForm.instructions);
         recipe.setSource(recipeForm.source);
         recipe.setPhoto(recipeForm.photo);
+
 
         ingredient.setIngredientName(ingredientForm.ingredientName);
 
@@ -172,8 +173,7 @@ public class RecipeController extends BaseController
         String instructions = form.get("recipeInstructions");
         String source = form.get("recipeSource");
 
-        //String ingredientName = form.get("ingredientName");
-
+        String ingredientName = form.get("ingredientName");
         String ingredientId = form.get("ingredientId");
 
         Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
@@ -190,7 +190,6 @@ public class RecipeController extends BaseController
         recipe.setServes(serves);
         recipe.setInstructions(instructions);
         recipe.setSource(source);
-
 
         jpaApi.em().persist(recipe);
         jpaApi.em().persist(ingredients);

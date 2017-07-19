@@ -23,7 +23,7 @@
 </nav>
 <body>
 
-<form method="GET" action="@routes.IngredientController.getIngredients">
+<form method="GET" action="@routes.IngredientController.ingredientSearch">
     Ingredient: <input type="text" name="ingredientName" id="ingredientName">
     <button type="submit">Search</button>
 </form>
@@ -32,7 +32,7 @@
     @for(ingredient <- ingredients) {
     <tr>
         <td>
-            <a href="/recipe/@ingredient.getIngredientId">@ingredient.getIngredientName</a>
+            @ingredient.getIngredientName</a>
         </td>
         }
     </tr>

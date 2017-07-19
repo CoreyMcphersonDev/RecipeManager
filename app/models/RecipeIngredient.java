@@ -29,7 +29,6 @@ public class RecipeIngredient
     @Column(name = "ingredientNote")
     private String ingredientNote;
 
-
     public int getRecipeId()
     {
         return recipeId;
@@ -79,6 +78,4 @@ public class RecipeIngredient
     {
         this.ingredientNote = ingredientNote;
     }
-
-
 }

@@ -22,9 +22,9 @@ POST    /recipeUpdate              controllers.RecipeController.updateRecipe
 
 
 
-GET     /foodartistAdd             controllers.FoodArtistController.addFoodArtist
-POST    /foodartistAdd             controllers.FoodArtistController.addNewFoodArtist
-POST    /foodartistUpdate          controllers.FoodArtistController.updateFoodArtist
+GET     /foodArtistAdd             controllers.FoodArtistController.addFoodArtist
+POST    /foodArtistAdd             controllers.FoodArtistController.addNewFoodArtist
+POST    /foodArtistUpdate          controllers.FoodArtistController.updateFoodArtist
 
 GET     /mealHistory               controllers.MealHistoryController.getMealHistory
 POST    /mealHistoryAdd            controllers.MealHistoryController.addMealHistory
@@ -32,6 +32,7 @@ POST    /mealHistoryAdd            controllers.MealHistoryController.addMealHist
 
 GET     /ingredients               controllers.IngredientController.getIngredients
 GET     /ingredientAdd             controllers.IngredientController.addIngredient
+GET     /ingredientSearch          controllers.IngredientController.ingredientSearch
 POST    /ingredientAdd             controllers.IngredientController.addNewIngredient
 
 

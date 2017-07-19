@@ -3,12 +3,13 @@ package controllers;
 
 import models.Ingredient;
 import models.IngredientForm;
+import models.Recipe;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
-import views.html.recipes;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
@@ -42,7 +43,7 @@ public class IngredientController extends BaseController
         none.setIngredientId(-1);
         ingredients.add(0, none);
 
-        return redirect(routes.RecipeController.getRecipe(id));
+        return ok(views.html.ingredients.render(ingredient));
     }
 
     @Transactional
@@ -55,14 +56,14 @@ public class IngredientController extends BaseController
 
     }
 
-   /* @Transactional
+    @Transactional
     public Result getIngredientsNativeQuery()
     {
         List<Ingredient> ingredients = jpaApi.em().createNativeQuery("SELECT ingredientId, ingredientName FROM Ingredient i ORDER BY ingredientName",
                 Ingredient.class).getResultList();
 
-        return ok(views.html.recipe.render(ingredients));
-    }*/
+        return ok(views.html.ingredients.render(ingredients));
+    }
 
     @Transactional
     public Result addIngredient()
@@ -89,8 +90,29 @@ public class IngredientController extends BaseController
 
         jpaApi.em().persist(ingredient);
 
-       return result = redirect(routes.IngredientController.getIngredients());
+       result = redirect(routes.IngredientController.getIngredients());
 
+       return result;
+    }
+
+    @Transactional(readOnly = true)
+    public Result ingredientSearch()
+    {
+        DynamicForm form = formFactory.form().bindFromRequest();
+
+        String searchIngredientName = form.get("ingredientName");
+
+        Logger.debug(searchIngredientName);
+
+        Query query = jpaApi.em().createQuery("SELECT i FROM Ingredient i " +
+                "WHERE ingredientName LIKE :searchIngredientName ORDER BY ingredientName", Ingredient.class);
+        query.setParameter("searchIngredientName", searchIngredientName + "%");
+
+        List<Ingredient> ingredients = query.getResultList();
+
+        //TODO NEED TO PUT IN A 'NO RESULTS FOUND' PAGE FOR GENERIC SEARCHES
+
+        return ok(views.html.ingredients.render(ingredients));
     }
 
 }

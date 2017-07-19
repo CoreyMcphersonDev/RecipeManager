@@ -22,56 +22,55 @@ import java.util.List;
 
 public class LoginController extends BaseController
 {
-       private FormFactory formFactory;
-       private JPAApi jpaApi;
+    private FormFactory formFactory;
+    private JPAApi jpaApi;
 
-        @Inject
-        public LoginController(FormFactory formFactory, JPAApi jpaApi)
-        {
-            this.formFactory = formFactory;
-            this.jpaApi = jpaApi;
-        }
-
-        public Result getLogin()
-        {
-            return  ok(views.html.login.render());
-        }
-
-        @Transactional(readOnly = true)
-        public Result login()
-        {
-            Result result = unauthorized("NO SOUP FOR YOU!");
-
-            DynamicForm form = formFactory.form().bindFromRequest();
-            String username = form.get("username");
-            String password = form.get("password");
-
-            String sql = "SELECT foodArtistId, foodArtistUserName, firstName, lastName, password, salt FROM foodArtist WHERE foodArtistUserName = :username";
-
-
-            //SHOW ME WHAT YOU GOT!
-            Logger.debug("Login SQL: " + sql);
-            Logger.debug(username);
-
-            @SuppressWarnings("unchecked")
-            List<FoodArtistId> foodArtistIds = jpaApi.em().createNativeQuery(sql, FoodArtistId.class).
-                    setParameter("username", username).
-                    getResultList();
-
-            if (foodArtistIds.size() == 1)
-            {
-                Logger.debug("got user" + username);
-                FoodArtistId foodArtistId = foodArtistIds.get(0);
-                byte[] hashedPassword = Password.hashPassword(password.toCharArray(), foodArtistId.getSalt());
-                byte[] dbPassword = foodArtistId.getPassword();
-
-                if (Arrays.equals(hashedPassword, dbPassword))
-                {
-                    login(username, foodArtistId.getFoodArtistId());
-                    result = redirect(routes.RecipeController.getRecipes());
-                }
-            }
-                return result;
-        }
+    @Inject
+    public LoginController(FormFactory formFactory, JPAApi jpaApi)
+    {
+        this.formFactory = formFactory;
+        this.jpaApi = jpaApi;
     }
 
+    public Result getLogin()
+    {
+        return  ok(views.html.login.render());
+    }
+
+    @Transactional(readOnly = true)
+    public Result login()
+    {
+        Result result = unauthorized("NO SOUP FOR YOU!");
+
+        DynamicForm form = formFactory.form().bindFromRequest();
+        String username = form.get("username");
+        String password = form.get("password");
+
+        String sql = "SELECT foodArtistId, foodArtistUserName, firstName, lastName, password, salt FROM foodArtist WHERE foodArtistUserName = :username";
+
+
+        //SHOW ME WHAT YOU GOT!
+        Logger.debug("Login SQL: " + sql);
+        Logger.debug(username);
+
+        @SuppressWarnings("unchecked")
+        List<FoodArtistId> foodArtistIds = jpaApi.em().createNativeQuery(sql, FoodArtistId.class).
+                setParameter("username", username).
+                getResultList();
+
+        if (foodArtistIds.size() == 1)
+        {
+            Logger.debug("got user" + username);
+            FoodArtistId foodArtistId = foodArtistIds.get(0);
+            byte[] hashedPassword = Password.hashPassword(password.toCharArray(), foodArtistId.getSalt());
+            byte[] dbPassword = foodArtistId.getPassword();
+
+            if (Arrays.equals(hashedPassword, dbPassword))
+            {
+                login(username, foodArtistId.getFoodArtistId());
+                result = redirect(routes.RecipeController.getRecipes());
+            }
+        }
+        return result;
+    }
+}
