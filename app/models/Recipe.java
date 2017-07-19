@@ -30,7 +30,7 @@ public class Recipe
     private int serves;
 
     @Column(name = "photo")
-    private String photo;
+    private byte[] photo;
 
     @Column(name = "photoPath")
     private String photoPath;
@@ -112,6 +112,16 @@ public class Recipe
     public void setServes(int serves)
     {
         this.serves = serves;
+    }
+
+    public byte[] getPhoto()
+    {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo)
+    {
+        this.photo = photo;
     }
 
     public String getPhotoPath()

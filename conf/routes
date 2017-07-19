@@ -19,6 +19,8 @@ GET     /recipeSearch              controllers.RecipeController.recipeSearch
 GET     /recipeAdd                 controllers.RecipeController.addRecipe
 POST    /recipeAdd                 controllers.RecipeController.addNewRecipe
 POST    /recipeUpdate              controllers.RecipeController.updateRecipe
+GET     /recipePicture/:id         controllers.RecipeController.getPicture(id: Integer)
+POST    /uploadRecipePicture       controllers.RecipeController.uploadPicture
 
 
 

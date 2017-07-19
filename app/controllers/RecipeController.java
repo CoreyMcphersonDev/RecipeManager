@@ -1,5 +1,6 @@
 package controllers;
 
+import com.google.common.io.Files;
 import models.*;
 import play.Logger;
 import play.data.DynamicForm;
@@ -62,6 +63,7 @@ public class RecipeController extends BaseController
 
         return (ok(views.html.recipe.render(recipe, ingredients)));
     }
+
 
     @Transactional(readOnly = true)
     public Result getRecipes()
@@ -208,5 +210,42 @@ public class RecipeController extends BaseController
 
         return redirect(routes.RecipeController.getRecipes());
     }
+
+
+    @Transactional
+    @BodyParser.Of(UploadMultipartFormDataBodyParser.class)
+    public Result uploadPicture() throws IOException
+    {
+        final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
+        final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("filename");
+        final File file = filePart.getFile();
+        Logger.debug(file.getName());
+
+
+        DynamicForm form = formFactory.form().bindFromRequest();
+        int id = Integer.parseInt(form.get("id"));
+
+        Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE id = :id", Recipe.class)
+                .setParameter("id", id).getSingleResult();
+
+        byte[] photo = Files.toByteArray(file);
+        recipe.setPhoto(photo);
+        jpaApi.em().persist(recipe);
+
+        return ok(file.getName());
+    }
+
+
+    @Transactional(readOnly = true)
+    public Result getPicture(Integer id)
+    {
+        Recipe recipe = (Recipe)jpaApi.em()
+                .createQuery("SELECT r FROM Recipe R where recipeId = :id").setParameter("id", id).getSingleResult();
+
+       return ok(recipe.getPhoto()).as("image/bmp");
+
+
+    }
+
 
 }

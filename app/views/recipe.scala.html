@@ -39,14 +39,20 @@
             @for(ingredient <- ingredients){
             <div class="col-md-8">@ingredient.getIngredientName @ingredient.getRecipeIngredientAmount @ingredient.getUnitMeasure @ingredient.getIngredientNote</div><br>
             <div class="col-md-8"></div>
-
                 }
-
             <div class="col-md-8"><br></div>
             <div class="col-md-12"><label>Instructions:</label> @recipe.getInstructions</div><br>
             <div class="col-md-8"><br></div>
             <div class="col-md-8"><label>Source:</label> @recipe.getSource</div>
         </div>
+
+        <div class="col-md-3"><img src=@{routes.RecipeController.getPicture(recipe.getRecipeId)}></div>
+    </form>
+
+    <form action="/uploadRecipePicture" method="POST" enctype="multipart/form-data">
+        <input type="file" id="filename" name="filename" />
+        <input type="hidden" id="id" name="id" value="@recipe.getRecipeId"/>
+        <button type="submit">Save Photo</button>
     </form>
 
 </div>
