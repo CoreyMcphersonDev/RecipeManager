@@ -1,4 +1,4 @@
-@(recipes : List[Recipe], foodArtistUsername : String)
+@(recipe : Recipe, mealHistories : List[MealHistoryItem])
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,18 +21,21 @@
         </ul>
     </div>
 </nav>
-<body>
 
-<form method="GET" action="@routes.RecipeController.recipeSearch">
-    Recipe Name: <input type="text" name="recipeName" id="recipeName">
-    <button type="submit">Search</button>
+<body>
+<div class="container">
+<form method="GET" action="@routes.MealHistoryController.getMealHistory">
+    <input type="hidden" name="id" id="id" value="@MealHistoryItem.getRecipeId">
+    <div class="row">
+
+    </div>
 </form>
 
 <table>
-    @for(recipe <- recipes) {
+    @for(mealHistory <- mealHistories) {
     <tr>
         <td>
-            <a href="/recipe/@recipe.getRecipeId">@recipe.getRecipeName</a>
+            @recipe.getRecipeName</a>
         </td>
         }
     </tr>

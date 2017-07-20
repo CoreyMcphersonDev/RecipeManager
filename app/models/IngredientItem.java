@@ -9,8 +9,9 @@ import java.math.BigDecimal;
 
 
 
-@Entity
+//Model containing columns and tables from Recipe table and RecipeIngredient
 
+@Entity
 public class IngredientItem implements Serializable
 {
     @Id

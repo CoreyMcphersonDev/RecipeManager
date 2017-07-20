@@ -15,4 +15,3 @@ libraryDependencies += "org.mariadb.jdbc" % "mariadb-java-client" % "1.5.7"
 libraryDependencies += "org.webjars" % "bootstrap" % "3.3.7-1"
 libraryDependencies += "org.webjars" %% "webjars-play" % "2.5.0"
 
-

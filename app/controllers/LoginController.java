@@ -49,9 +49,6 @@ public class LoginController extends BaseController
         String sql = "SELECT foodArtistId, foodArtistUserName, firstName, lastName, password, salt FROM foodArtist WHERE foodArtistUserName = :username";
 
 
-        //SHOW ME WHAT YOU GOT!
-        Logger.debug("Login SQL: " + sql);
-        Logger.debug(username);
 
         @SuppressWarnings("unchecked")
         List<FoodArtistId> foodArtistIds = jpaApi.em().createNativeQuery(sql, FoodArtistId.class).

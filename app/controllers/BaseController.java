@@ -37,12 +37,4 @@ public class BaseController extends Controller
         return foodArtistId;
     }
 
-    public int getRecipeId(String recipeIdToken)
-    {
-        session().put(recipeIdToken, ""+recipeIdToken);
-        int recipeId = Integer.parseInt(session().get(recipeIdToken));
-
-        return recipeId;
-
-    }
 }

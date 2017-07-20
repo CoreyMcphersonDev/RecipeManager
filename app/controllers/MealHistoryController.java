@@ -1,9 +1,7 @@
 package controllers;
 
 
-import models.IngredientForm;
-import models.Recipe;
-import models.RecipeForm;
+import models.*;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -11,6 +9,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,19 +29,19 @@ public class MealHistoryController extends BaseController
     @Transactional(readOnly = true)
     public Result getMealHistory()
     {
-        DynamicForm form = formFactory.form().bindFromRequest();
-        Result result = unauthorized("INTRUDER ALERT");
-
-        //GET FROM SESSION INSTEAD OF FROM THE FORM
-        //int foodArtistId = Integer.parseInt(form.get("foodArtistId"));
-        String foodArtistUserName = session().get("foodArtistId");
+        Result result = unauthorized("NO SOUP FOR YOU!");
 
         if (loggedIn())
         {
-            List<Recipe> recipes = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE foodArtistId = :id ORDER BY recipeName", Recipe.class)
-                    .setParameter("id", session().get(foodArtistUserName)).getResultList();
+           Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
+                  Recipe.class).setParameter("id", getFoodArtistId()).getSingleResult();
 
-            result = ok(views.html.mealhistory.render(recipes, foodArtistUserName));
+            List<MealHistoryItem> mealHistories = jpaApi.em()
+                    .createNativeQuery("SELECT m.mealHistoryId, m.foodArtistId, m.recipeId, m.tasteRatingId, m.mealMadeDate, r.recipeName FROM MealHistory m " +
+                            "JOIN Recipe r ON r.recipeId = m.foodArtistId  WHERE r.recipeId = :id ORDER BY m.mealMadeDate", MealHistoryItem.class)
+                    .setParameter("id", getFoodArtistId() ).getResultList();
+
+            result = ok(views.html.mealhistory.render(recipe, mealHistories));
         }
         return result;
     }
