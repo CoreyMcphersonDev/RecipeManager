@@ -24,11 +24,6 @@ public class Ingredient
         return ingredientId;
     }
 
-    public void setIngredientId(int ingredientId)
-    {
-        this.ingredientId = ingredientId;
-    }
-
     public String getIngredientName()
     {
         return ingredientName;

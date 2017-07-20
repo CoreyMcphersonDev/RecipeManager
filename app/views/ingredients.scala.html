@@ -29,11 +29,11 @@
     <button type="submit">Search</button>
 </form>
 
-<div class = "col-md-1">
+<ul class = "ingredients">
     @for(ingredient <- ingredients) {
-@ingredient.getIngredientName
+<li class="ingredients"> @ingredient.getIngredientName</li>
         }
-    </div>
+    </ul>
 
 
 </body>

@@ -47,7 +47,8 @@ public class IngredientController extends BaseController
         return ok(views.html.ingredients.render(ingredients));
     }
 
-    @Transactional
+
+
     public Result addIngredient()
     {
         List<String> errorMessages = new ArrayList<>();
@@ -64,15 +65,33 @@ public class IngredientController extends BaseController
         DynamicForm form = formFactory.form().bindFromRequest();
 
         IngredientForm ingredientForm = new IngredientForm();
+
         ingredientForm.ingredientName = form.get("ingredientName");
 
-        Ingredient ingredient = new Ingredient();
+        boolean valid = true;
 
-        ingredient.setIngredientName(ingredientForm.ingredientName);
+        if (ingredientForm.ingredientName == null || ingredientForm.ingredientName.length() < 3)
+        {
+            valid = false;
+            errorMessages.add("Ingredient name must be at least three characters long");
+        }
+        if (valid)
+        {
 
-        jpaApi.em().persist(ingredient);
+            Ingredient ingredient = new Ingredient();
 
-       return result = redirect(routes.IngredientController.getIngredients());
+            ingredient.setIngredientName(ingredientForm.ingredientName);
+
+            jpaApi.em().persist(ingredient);
+
+            result = redirect(routes.IngredientController.getIngredients());
+        }
+        else
+        {
+            result = ok(views.html.newingredient.render(ingredientForm, errorMessages));
+        }
+
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -82,11 +101,10 @@ public class IngredientController extends BaseController
 
         String searchIngredientName = form.get("ingredientName");
 
-        Logger.debug(searchIngredientName);
-
         Query query = jpaApi.em().createQuery("SELECT i FROM Ingredient i " +
                 "WHERE ingredientName LIKE :searchIngredientName ORDER BY ingredientName", Ingredient.class);
-        query.setParameter("searchIngredientName", searchIngredientName + "%");
+
+        query.setParameter("searchIngredientName", "%" + searchIngredientName + "%");
 
         List<Ingredient> ingredients = query.getResultList();
 

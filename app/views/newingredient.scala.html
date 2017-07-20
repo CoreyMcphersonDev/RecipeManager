@@ -23,7 +23,7 @@
 </nav>
 <body>
 <form method="POST" action="@routes.IngredientController.addNewIngredient">
-    Ingredient Name:<input type="text" name="ingredientname" id="ingredientname" value="@ingredientForm.ingredientName"><br>
+    Ingredient Name:<input type="text" name="ingredientName" id="ingredientName" value="@ingredientForm.ingredientName"><br>
         <button type="submit">Save Ingredient</button>
 </form>
 @for(errorMessage <- errorMessages){
