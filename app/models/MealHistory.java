@@ -72,6 +72,7 @@ public class MealHistory
         return mealMadeDate;
     }
 
+
     public void setMealMadeDate(Date mealMadeDate)
     {
         this.mealMadeDate = mealMadeDate;
