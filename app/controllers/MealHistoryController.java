@@ -36,10 +36,16 @@ public class MealHistoryController extends BaseController
            Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
                   Recipe.class).setParameter("id", getFoodArtistId()).getSingleResult();
 
+           //MealHistoryItem mealHistoryItem = jpaApi.em().createQuery("SELECT m FROM mealHistoryItem m WHERE recipeId = :id",
+                   //MealHistoryItem.class).setParameter("id", getFoodArtistId()).getSingleResult();
+
+
+           //Joining MealHistory table and Recipe table
             List<MealHistoryItem> mealHistories = jpaApi.em()
-                    .createNativeQuery("SELECT m.mealHistoryId, m.foodArtistId, m.recipeId, m.tasteRatingId, m.mealMadeDate, r.recipeName FROM MealHistory m " +
-                            "JOIN Recipe r ON r.recipeId = m.foodArtistId  WHERE r.recipeId = :id ORDER BY m.mealMadeDate", MealHistoryItem.class)
-                    .setParameter("id", getFoodArtistId() ).getResultList();
+                    .createNativeQuery("SELECT m.mealHistoryId, m.foodArtistId, m.recipeId, m.tasteRatingId, m.mealMadeDate, r.recipeName," +
+                            " r.recipeId FROM MealHistory m " +
+                            "JOIN Recipe r ON r.recipeId = m.recipeId  WHERE m.foodArtistId = :id ORDER BY m.mealMadeDate", MealHistoryItem.class)
+                    .setParameter("id", getFoodArtistId()).getResultList();
 
             result = ok(views.html.mealhistory.render(recipe, mealHistories));
         }

@@ -23,7 +23,19 @@
 </nav>
 <body>
 <form method="POST" action="@routes.RecipeController.addNewRecipe">
-    Recipe Name:<input type="text" name="recipename" id="recipename" value="@recipeForm.recipeName"><br>
+    Recipe Name:<input name="recipename" id="recipename" value="@recipeForm.recipeName"><br>
+    Cuisine:
+    <form action="@routes.RecipeController.addNewRecipe"></form>
+    <select>
+        <option value="African">African</option>
+        <option value="American">American</option>
+        <option value="French">French</option>
+        <option value="Indian">Indian</option>
+        <option value="Italian">Italian</option>
+        <option value="Mexican">Mexican</option>
+        <option value="Thai">Thai</option>
+    </select><br>
+
     Total Time:<input type="number" name="totaltime" id="totaltime"><br>
     Prep Time:<input type="number" name="timeprep" id="timeprep"><br>
     Cooking Time:<input type="number" name="timecook" id="timecook"><br>
@@ -31,6 +43,7 @@
     Recipe Instructions:<input type="text" name="instructions" id="instructions"><br>
     Source:<input type="text" name="source" id="source"><br>
     Ingredients:<input type="text" name="ingredients" id="ingredients"><br>
+
     <button type="submit">Save Recipe</button>
 </form>
 @for(errorMessage <- errorMessages){

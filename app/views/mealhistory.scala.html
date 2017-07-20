@@ -25,7 +25,7 @@
 <body>
 <div class="container">
 <form method="GET" action="@routes.MealHistoryController.getMealHistory">
-    <input type="hidden" name="id" id="id" value="@MealHistoryItem.getRecipeId">
+    <input type="hidden" name="id" id="id" value="@recipe.getRecipeId">
     <div class="row">
 
     </div>
@@ -35,7 +35,9 @@
     @for(mealHistory <- mealHistories) {
     <tr>
         <td>
-            @recipe.getRecipeName</a>
+            @mealHistory.getRecipeName
+            @mealHistory.getMealMadeDate
+
         </td>
         }
     </tr>

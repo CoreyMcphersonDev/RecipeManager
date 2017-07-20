@@ -13,6 +13,7 @@ import play.mvc.Result;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -46,8 +47,12 @@ public class RecipeController extends BaseController
         List<IngredientItem> ingredients = jpaApi.em().
                 createNativeQuery("SELECT r.recipeId, r.ingredientId, i.ingredientName, " +
                                 "r.recipeIngredientAmount, r.unitMeasure, r.ingredientNote " +
-                                "FROM Ingredient i JOIN RecipeIngredient r ON r.ingredientId = i.ingredientId WHERE r.recipeId = :id",
+                                "FROM Ingredient i JOIN RecipeIngredient r ON r.ingredientId = i.ingredientId " +
+                                "WHERE r.recipeId = :id",
                         IngredientItem.class).setParameter("id", Id).getResultList();
+
+         //Query recipeCuisineQuery = jpaApi.em().createQuery("SELECT recipeCuisineId FROM Recipe r WHERE recipeId = :id",
+                //Recipe.class);
 
 
 
@@ -131,26 +136,31 @@ public class RecipeController extends BaseController
         List<String> errorMessages = new ArrayList<>();
 
         DynamicForm form = formFactory.form().bindFromRequest();
-
         IngredientForm ingredientForm = new IngredientForm();
-        ingredientForm.ingredientName = form.get("ingredientName");
+        RecipeIngredientForm recipeIngredientForm = new RecipeIngredientForm();
 
+        //Get
         RecipeForm recipeForm = new RecipeForm();
         recipeForm.recipeName = form.get("recipename");
         recipeForm.timeCook = form.get("recipetimecookminutes");
         recipeForm.timePrep = form.get("recipetimeprepminutes");
         recipeForm.totalTime = form.get("totaltime");
         recipeForm.serves = form.get("serves");
-        recipeForm.instructions = form.get("recipeinstructions");
-        recipeForm.source = form.get("recipesource");
 
-        ingredientForm.ingredientName = form.get("inredientName");
+        ingredientForm.ingredientName = form.get("ingredientName");
 
+        recipeIngredientForm.recipeIngredientAmount = form.get("recipeIngredientAmount");
+        recipeIngredientForm.unitMeasure = form.get("unitMeasure");
+        recipeIngredientForm.ingredientNote = form.get("ingredientNote");
 
-        Ingredient ingredient = new Ingredient();
+        recipeForm.instructions = form.get("recipeInstructions");
+        recipeForm.source = form.get("recipeSource");
+
         Recipe recipe = new Recipe();
+        Ingredient ingredient = new Ingredient();
+        RecipeIngredient recipeIngredient = new RecipeIngredient();
 
-
+        //Set
         recipe.setRecipeName(recipeForm.recipeName);
         recipe.setTimeCook(Integer.parseInt(recipeForm.timeCook));
         recipe.setTimePrep(Integer.parseInt(recipeForm.timePrep));
@@ -159,8 +169,13 @@ public class RecipeController extends BaseController
         recipe.setInstructions(recipeForm.instructions);
         recipe.setSource(recipeForm.source);
 
-
         ingredient.setIngredientName(ingredientForm.ingredientName);
+
+        //TODO: cast BigDecimal recipeIngredientAmount to string
+        //recipeIngredient.setRecipeIngredientAmount(toString(recipeIngredientForm.recipeIngredientAmount));
+        recipeIngredient.setUnitMeasure(recipeIngredientForm.unitMeasure);
+        recipeIngredient.setIngredientNote(recipeIngredientForm.ingredientNote);
+
 
         jpaApi.em().persist(recipe);
         jpaApi.em().persist(ingredient);
@@ -239,8 +254,10 @@ public class RecipeController extends BaseController
     @Transactional(readOnly = true)
     public Result getPicture(Integer id)
     {
+        Logger.debug(""+id);
+
         Recipe recipe = (Recipe)jpaApi.em()
-                .createQuery("SELECT r FROM Recipe R where recipeId = :id").setParameter("id", id).getSingleResult();
+                .createQuery("SELECT r FROM Recipe r where recipeId = :id").setParameter("id", id).getSingleResult();
 
        return ok(recipe.getPhoto()).as("image/bmp");
 

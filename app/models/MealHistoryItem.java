@@ -12,14 +12,13 @@ import java.util.Date;
 //Model combining Recipe table and MealHistory table
 
 @Entity
-public class MealHistoryItem implements Serializable
+public class MealHistoryItem
 {
     @Id
     @Column(name = "mealHistoryId")
     private int mealHistoryId;
     //mealHistory table
 
-    @Id
     @Column(name = "recipeId")
     private int recipeId;
     //mealHistory table
@@ -59,8 +58,6 @@ public class MealHistoryItem implements Serializable
     {
         this.recipeId = recipeId;
     }
-
-
 
     public String getRecipeName()
     {
