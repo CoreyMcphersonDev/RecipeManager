@@ -122,7 +122,7 @@ public class RecipeController extends BaseController
         List<Ingredient> ingredients = jpaApi.em()
                 .createQuery("SELECT i FROM Ingredient i ORDER BY ingredientName", Ingredient.class).getResultList();
 
-        return ok(views.html.newrecipe.render(new RecipeForm(),  errorMessages, ingredients));
+               return ok(views.html.newrecipe.render(new RecipeForm(),  errorMessages, ingredients));
     }
 
 
@@ -138,21 +138,25 @@ public class RecipeController extends BaseController
 
         DynamicForm form = formFactory.form().bindFromRequest();
 
-        RecipeIngredientForm recipeIngredientForm = new RecipeIngredientForm();
+        List<RecipeIngredientForm> recipeIngredientForms = new ArrayList<>();
 
         //Get
         RecipeForm recipeForm = new RecipeForm();
-        recipeForm.recipeName = form.get("recipename");
-        recipeForm.timeCook = form.get("recipetimecookminutes");
-        recipeForm.timePrep = form.get("recipetimeprepminutes");
-        recipeForm.totalTime = form.get("totaltime");
+        recipeForm.recipeName = form.get("recipeName");
+        recipeForm.timeCook = form.get("recipeTimeCookMinutes");
+        recipeForm.timePrep = form.get("recipeTimePrepMinutes");
+        recipeForm.totalTime = form.get("totalTime");
         recipeForm.serves = form.get("serves");
 
-        recipeIngredientForm.ingredientId = form.get("ingredientId");
-
-        recipeIngredientForm.recipeIngredientAmount = form.get("recipeIngredientAmount");
-        recipeIngredientForm.unitMeasure = form.get("unitMeasure");
-        recipeIngredientForm.ingredientNote = form.get("ingredientNote");
+        for (int i = 1; i <= 4; i++)
+        {
+            RecipeIngredientForm recipeIngredientForm = new RecipeIngredientForm();
+            recipeIngredientForm.ingredientId = form.get("ingredientId" + i);
+            recipeIngredientForm.recipeIngredientAmount = form.get("recipeIngredientAmount" + i);
+            recipeIngredientForm.unitMeasure = form.get("unitMeasure" + i);
+            recipeIngredientForm.ingredientNote = form.get("ingredientNote" + i);
+            recipeIngredientForms.add(recipeIngredientForm);
+        }
 
         recipeForm.instructions = form.get("recipeInstructions");
         recipeForm.source = form.get("recipeSource");
@@ -169,8 +173,6 @@ public class RecipeController extends BaseController
         {
             Recipe recipe = new Recipe();
 
-            RecipeIngredient recipeIngredient = new RecipeIngredient();
-
             //Set
             recipe.setFoodArtistId(Integer.parseInt(session().get("foodArtistId")));
             recipe.setRecipeName(recipeForm.recipeName);
@@ -183,15 +185,20 @@ public class RecipeController extends BaseController
 
             jpaApi.em().persist(recipe);
 
-            recipeIngredient.setRecipeId(recipe.getRecipeId());
+            for (RecipeIngredientForm recipeIngredientForm:recipeIngredientForms)
+            {
+                RecipeIngredient recipeIngredient = new RecipeIngredient();
+                recipeIngredient.setRecipeId(recipe.getRecipeId());
+                recipeIngredient.setIngredientId(Integer.parseInt(recipeIngredientForm.ingredientId));
 
-            recipeIngredient.setIngredientId(Integer.parseInt(recipeIngredientForm.ingredientId));
 
-            recipeIngredient.setRecipeIngredientAmount(recipeIngredientForm.recipeIngredientAmount);
-            recipeIngredient.setUnitMeasure(recipeIngredientForm.unitMeasure);
-            recipeIngredient.setIngredientNote(recipeIngredientForm.ingredientNote);
+                recipeIngredient.setRecipeIngredientAmount(recipeIngredientForm.recipeIngredientAmount);
+                recipeIngredient.setUnitMeasure(recipeIngredientForm.unitMeasure);
+                recipeIngredient.setIngredientNote(recipeIngredientForm.ingredientNote);
 
-            jpaApi.em().persist(recipeIngredient);
+                jpaApi.em().persist(recipeIngredient);
+            }
+
 
             result = redirect(routes.RecipeController.getRecipes());
         }
