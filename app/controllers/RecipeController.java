@@ -85,7 +85,7 @@ public class RecipeController extends BaseController
         return result;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Result getRecipesNativeQuery()
     {
         String foodArtistId = session().get("foodArtistId");
@@ -132,11 +132,13 @@ public class RecipeController extends BaseController
     {
         Result result;
 
-        //TODO: define error messages
+
         List<String> errorMessages = new ArrayList<>();
 
         DynamicForm form = formFactory.form().bindFromRequest();
+
         IngredientForm ingredientForm = new IngredientForm();
+
         RecipeIngredientForm recipeIngredientForm = new RecipeIngredientForm();
 
         //Get
@@ -156,34 +158,50 @@ public class RecipeController extends BaseController
         recipeForm.instructions = form.get("recipeInstructions");
         recipeForm.source = form.get("recipeSource");
 
-        Recipe recipe = new Recipe();
-        Ingredient ingredient = new Ingredient();
-        RecipeIngredient recipeIngredient = new RecipeIngredient();
+        boolean valid = true;
 
-        //Set
-        recipe.setRecipeName(recipeForm.recipeName);
-        recipe.setTimeCook(Integer.parseInt(recipeForm.timeCook));
-        recipe.setTimePrep(Integer.parseInt(recipeForm.timePrep));
-        recipe.setTotalTime(Integer.parseInt(recipeForm.totalTime));
-        recipe.setServes(Integer.parseInt(recipeForm.serves));
-        recipe.setInstructions(recipeForm.instructions);
-        recipe.setSource(recipeForm.source);
+        if (recipeForm.recipeName == null || recipeForm.recipeName.length() < 3 || recipeForm.recipeName.length() > 100 )
+        {
+            valid = false;
+            errorMessages.add("Recipe name must be between " + Recipe.RECIPE_NAME_MIN_LENGTH + " and " + Recipe.RECIPE_NAME_MAX_LENGTH + " characters");
+        }
 
-        ingredient.setIngredientName(ingredientForm.ingredientName);
+        if (valid)
+        {
+            Recipe recipe = new Recipe();
+            Ingredient ingredient = new Ingredient();
+            RecipeIngredient recipeIngredient = new RecipeIngredient();
+            IngredientItem ingredientItem = new IngredientItem();
 
-        //TODO: cast BigDecimal recipeIngredientAmount to string
-        //recipeIngredient.setRecipeIngredientAmount(toString(recipeIngredientForm.recipeIngredientAmount));
-        recipeIngredient.setUnitMeasure(recipeIngredientForm.unitMeasure);
-        recipeIngredient.setIngredientNote(recipeIngredientForm.ingredientNote);
+            //Set
+            recipe.setRecipeName(recipeForm.recipeName);
+            recipe.setTimeCook(Integer.parseInt(recipeForm.timeCook));
+            recipe.setTimePrep(Integer.parseInt(recipeForm.timePrep));
+            recipe.setTotalTime(Integer.parseInt(recipeForm.totalTime));
+            recipe.setServes(Integer.parseInt(recipeForm.serves));
+            recipe.setInstructions(recipeForm.instructions);
+            recipe.setSource(recipeForm.source);
+
+            ingredient.setIngredientName(ingredientForm.ingredientName);
+
+            //TODO: cast BigDecimal recipeIngredientAmount to string
+            //recipeIngredient.setRecipeIngredientAmount(toString(recipeIngredientForm.recipeIngredientAmount));
+            recipeIngredient.setUnitMeasure(recipeIngredientForm.unitMeasure);
+            recipeIngredient.setIngredientNote(recipeIngredientForm.ingredientNote);
 
 
-        jpaApi.em().persist(recipe);
-        jpaApi.em().persist(ingredient);
+            jpaApi.em().persist(recipe);
+            jpaApi.em().persist(ingredient);
 
-        result = redirect(routes.RecipeController.getRecipes());
-
+            result = redirect(routes.RecipeController.getRecipes());
+        }
+        else
+        {
+            result = ok(views.html.newrecipe.render(recipeForm, errorMessages));
+        }
         return result;
     }
+
 
     @Transactional
     public Result updateRecipe()
@@ -247,7 +265,7 @@ public class RecipeController extends BaseController
         recipe.setPhoto(photo);
         jpaApi.em().persist(recipe);
 
-        return ok(file.getName());
+        return redirect(routes.RecipeController.getRecipes());
     }
 
 

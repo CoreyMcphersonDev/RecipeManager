@@ -29,7 +29,7 @@ public class IngredientController extends BaseController
     }
 
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Result getIngredients()
     {
         List<Ingredient> ingredients = jpaApi.em()

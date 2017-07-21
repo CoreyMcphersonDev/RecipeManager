@@ -36,8 +36,6 @@ public class MealHistoryController extends BaseController
            Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
                   Recipe.class).setParameter("id", getFoodArtistId()).getSingleResult();
 
-           //MealHistoryItem mealHistoryItem = jpaApi.em().createQuery("SELECT m FROM mealHistoryItem m WHERE recipeId = :id",
-                   //MealHistoryItem.class).setParameter("id", getFoodArtistId()).getSingleResult();
 
 
            //Joining MealHistory table and Recipe table
