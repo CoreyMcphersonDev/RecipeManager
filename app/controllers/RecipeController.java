@@ -118,7 +118,11 @@ public class RecipeController extends BaseController
     public Result addRecipe()
     {
         List<String> errorMessages = new ArrayList<>();
-        return ok(views.html.newrecipe.render(new RecipeForm(), new IngredientForm(), errorMessages));
+
+        List<Ingredient> ingredients = jpaApi.em()
+                .createQuery("SELECT i FROM Ingredient i ORDER BY ingredientName", Ingredient.class).getResultList();
+
+        return ok(views.html.newrecipe.render(new RecipeForm(),  errorMessages, ingredients));
     }
 
 
@@ -127,12 +131,12 @@ public class RecipeController extends BaseController
     {
         Result result;
 
+        List<Ingredient> ingredients = jpaApi.em()
+                .createQuery("SELECT i FROM Ingredient i ORDER BY ingredientName", Ingredient.class).getResultList();
 
         List<String> errorMessages = new ArrayList<>();
 
         DynamicForm form = formFactory.form().bindFromRequest();
-
-        IngredientForm ingredientForm = new IngredientForm();
 
         RecipeIngredientForm recipeIngredientForm = new RecipeIngredientForm();
 
@@ -144,7 +148,7 @@ public class RecipeController extends BaseController
         recipeForm.totalTime = form.get("totaltime");
         recipeForm.serves = form.get("serves");
 
-        ingredientForm.ingredientName = form.get("ingredientName");
+        recipeIngredientForm.ingredientId = form.get("ingredientId");
 
         recipeIngredientForm.recipeIngredientAmount = form.get("recipeIngredientAmount");
         recipeIngredientForm.unitMeasure = form.get("unitMeasure");
@@ -181,17 +185,19 @@ public class RecipeController extends BaseController
 
             recipeIngredient.setRecipeId(recipe.getRecipeId());
 
-            
+            recipeIngredient.setIngredientId(Integer.parseInt(recipeIngredientForm.ingredientId));
+
             recipeIngredient.setRecipeIngredientAmount(recipeIngredientForm.recipeIngredientAmount);
             recipeIngredient.setUnitMeasure(recipeIngredientForm.unitMeasure);
             recipeIngredient.setIngredientNote(recipeIngredientForm.ingredientNote);
+
             jpaApi.em().persist(recipeIngredient);
 
             result = redirect(routes.RecipeController.getRecipes());
         }
         else
         {
-            result = ok(views.html.newrecipe.render(recipeForm, ingredientForm, errorMessages));
+            result = ok(views.html.newrecipe.render(recipeForm, errorMessages, ingredients));
         }
         return result;
     }

@@ -1,4 +1,4 @@
-@(recipeForm: RecipeForm, ingredientForm : IngredientForm, errorMessages : List[String])
+@(recipeForm: RecipeForm, errorMessages : List[String], ingredients : List[Ingredient])
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +8,10 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Recipe Wizard!</a>
+            <a class="navbar-brand">Recipe Wizard!</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"></li>
             <li><a href="mealHistory">Meal History</a></li>
             <li><a href="recipes">Recipes</a></li>
             <li><a href="ingredients">Ingredients</a></li>
@@ -21,7 +21,7 @@
     </div>
 </nav>
 <body>
-<body>
+
 <form method="POST" action="@routes.RecipeController.addNewRecipe">
 
     Recipe Name:<input name="recipename" id="recipename" value="@recipeForm.recipeName"><br>
@@ -33,7 +33,16 @@
     Recipe Instructions:<input type="text" name="recipeInstructions" id="instructions" value="@recipeForm.instructions"><br>
     Source:<input type="text" name="source" id="source" value="@recipeForm.source"><br>
 
-    Ingredients:<input type="text" name="ingredientName" id="ingredientName" value="@ingredientForm.ingredientName"><br>
+
+    <select name="ingredientId" id="ingredientId">
+        @for(ingredient <- ingredients){
+        <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
+        }
+    </select>
+
+    <button type="submit">Add Ingredient</button><br>
+
+
 
 
     <button type="submit">Save Recipe</button>

@@ -11,12 +11,12 @@
             <a class="navbar-brand" href="#">Recipe Wizard!</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="recipes">Home</a></li>
-            <li><a href="mealHistory">Meal History</a></li>
-            <li><a href="recipes">Recipes</a></li>
-            <li><a href="ingredients">Ingredients</a></li>
-            <li><a href="recipeAdd">Add a Recipe </a></li>
-            <li><a href="ingredientAdd">Add an Ingredient</a></li>
+            <li class="active">Home</li>
+            <li><a href="/mealHistory">Meal History</a></li>
+            <li><a href="/recipes">Recipes</a></li>
+            <li><a href="/ingredients">Ingredients</a></li>
+            <li><a href="/recipeAdd">Add a Recipe </a></li>
+            <li><a href="/ingredientAdd">Add an Ingredient</a></li>
         </ul>
     </div>
 </nav>
@@ -24,7 +24,7 @@
 <body>
 <div class="container">
     <form method="POST" action="@routes.RecipeController.updateRecipe">
-        <input type="hidden" name="id" id="id" value="@recipe.getRecipeId">
+        <input type="hidden" name="recipeId" id="recipeId" value="@recipe.getRecipeId">
         <div class="row">
             <div class="col-md-6"><h1>@recipe.getRecipeName</h1></div>
         </div>
