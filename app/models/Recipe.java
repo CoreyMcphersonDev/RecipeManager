@@ -1,9 +1,6 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -17,6 +14,7 @@ public class Recipe
 
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "recipeId")
     private int recipeId;
 
@@ -51,13 +49,13 @@ public class Recipe
     private int foodArtistId;
 
     @Column(name = "recipeCategoryId")
-    private int categoryId;
+    private Integer categoryId;
 
     @Column(name = "recipeCuisineId")
-    private int cuisineId;
+    private Integer cuisineId;
 
     @Column(name = "difficultyRatingId")
-    private int difficultyRatingId;
+    private Integer difficultyRatingId;
 
 
     public int getRecipeId()
@@ -170,32 +168,32 @@ public class Recipe
         this.foodArtistId = foodArtistId;
     }
 
-    public int getCategoryId()
+    public Integer getCategoryId()
     {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId)
+    public void setCategoryId(Integer categoryId)
     {
         this.categoryId = categoryId;
     }
 
-    public int getCuisineId()
+    public Integer getCuisineId()
     {
         return cuisineId;
     }
 
-    public void setCuisineId(int cuisineId)
+    public void setCuisineId(Integer cuisineId)
     {
         this.cuisineId = cuisineId;
     }
 
-    public int getDifficultyRatingId()
+    public Integer getDifficultyRatingId()
     {
         return difficultyRatingId;
     }
 
-    public void setDifficultyRatingId(int difficultyRatingId)
+    public void setDifficultyRatingId(Integer difficultyRatingId)
     {
         this.difficultyRatingId = difficultyRatingId;
     }

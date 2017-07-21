@@ -22,7 +22,7 @@ public class RecipeIngredient implements Serializable
     private int ingredientId;
 
     @Column(name = "recipeIngredientAmount")
-    private BigDecimal recipeIngredientAmount;
+    private String recipeIngredientAmount;
 
     @Column(name = "unitMeasure")
     private String unitMeasure;
@@ -53,12 +53,12 @@ public class RecipeIngredient implements Serializable
         this.ingredientId = ingredientId;
     }
 
-    public BigDecimal getRecipeIngredientAmount()
+    public String getRecipeIngredientAmount()
     {
         return recipeIngredientAmount;
     }
 
-    public void setRecipeIngredientAmount(BigDecimal recipeIngredientAmount)
+    public void setRecipeIngredientAmount(String recipeIngredientAmount)
     {
         this.recipeIngredientAmount = recipeIngredientAmount;
     }

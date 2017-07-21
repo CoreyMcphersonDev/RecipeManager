@@ -51,11 +51,6 @@ public class RecipeController extends BaseController
                                 "WHERE r.recipeId = :id",
                         IngredientItem.class).setParameter("id", Id).getResultList();
 
-         //Query recipeCuisineQuery = jpaApi.em().createQuery("SELECT recipeCuisineId FROM Recipe r WHERE recipeId = :id",
-                //Recipe.class);
-
-
-
         Query recipeIngredientsQuery = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId <> :id " +
                 "ORDER BY ingredientId", RecipeIngredient.class);
 
@@ -123,7 +118,7 @@ public class RecipeController extends BaseController
     public Result addRecipe()
     {
         List<String> errorMessages = new ArrayList<>();
-        return ok(views.html.newrecipe.render(new RecipeForm(), errorMessages));
+        return ok(views.html.newrecipe.render(new RecipeForm(), new IngredientForm(), errorMessages));
     }
 
 
@@ -169,11 +164,11 @@ public class RecipeController extends BaseController
         if (valid)
         {
             Recipe recipe = new Recipe();
-            Ingredient ingredient = new Ingredient();
+
             RecipeIngredient recipeIngredient = new RecipeIngredient();
-            IngredientItem ingredientItem = new IngredientItem();
 
             //Set
+            recipe.setFoodArtistId(Integer.parseInt(session().get("foodArtistId")));
             recipe.setRecipeName(recipeForm.recipeName);
             recipe.setTimeCook(Integer.parseInt(recipeForm.timeCook));
             recipe.setTimePrep(Integer.parseInt(recipeForm.timePrep));
@@ -182,22 +177,21 @@ public class RecipeController extends BaseController
             recipe.setInstructions(recipeForm.instructions);
             recipe.setSource(recipeForm.source);
 
-            ingredient.setIngredientName(ingredientForm.ingredientName);
+            jpaApi.em().persist(recipe);
 
-            //TODO: cast BigDecimal recipeIngredientAmount to string
-            //recipeIngredient.setRecipeIngredientAmount(toString(recipeIngredientForm.recipeIngredientAmount));
+            recipeIngredient.setRecipeId(recipe.getRecipeId());
+
+            
+            recipeIngredient.setRecipeIngredientAmount(recipeIngredientForm.recipeIngredientAmount);
             recipeIngredient.setUnitMeasure(recipeIngredientForm.unitMeasure);
             recipeIngredient.setIngredientNote(recipeIngredientForm.ingredientNote);
-
-
-            jpaApi.em().persist(recipe);
-            jpaApi.em().persist(ingredient);
+            jpaApi.em().persist(recipeIngredient);
 
             result = redirect(routes.RecipeController.getRecipes());
         }
         else
         {
-            result = ok(views.html.newrecipe.render(recipeForm, errorMessages));
+            result = ok(views.html.newrecipe.render(recipeForm, ingredientForm, errorMessages));
         }
         return result;
     }
@@ -272,7 +266,6 @@ public class RecipeController extends BaseController
     @Transactional(readOnly = true)
     public Result getPicture(Integer id)
     {
-        Logger.debug(""+id);
 
         Recipe recipe = (Recipe)jpaApi.em()
                 .createQuery("SELECT r FROM Recipe r where recipeId = :id").setParameter("id", id).getSingleResult();
