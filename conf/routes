@@ -22,7 +22,7 @@ GET     /recipeUpdate              controllers.RecipeController.updateRecipe
 POST    /recipeUpdate              controllers.RecipeController.updateRecipe
 
 
-GET     /recipePicture/:id         controllers.RecipeController.getPicture(id: Integer)
+GET     /recipePicture/:id         controllers.RecipeController.getPicture(id:Integer)
 POST    /uploadRecipePicture       controllers.RecipeController.uploadPicture
 
 

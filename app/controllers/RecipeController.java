@@ -4,6 +4,7 @@ import com.google.common.io.Files;
 import models.*;
 import play.Logger;
 import play.data.DynamicForm;
+import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -60,6 +61,7 @@ public class RecipeController extends BaseController
         RecipeIngredient none = new RecipeIngredient();
         none.setIngredientId(-1);
         recipeIngredients.add(0, none);
+
 
         return (ok(views.html.recipe.render(recipe, ingredients)));
     }
@@ -252,6 +254,51 @@ public class RecipeController extends BaseController
     }
 
 
+
+    /*@Transactional
+    public Result editRecipe(Integer Id)
+    {
+        DynamicForm form = formFactory.form().bindFromRequest();
+
+        int recipeId = Integer.parseInt(form.get("id"));
+        String name = form.get("recipeName");
+        int timeCook = Integer.parseInt(form.get("recipeTimeCookMinutes"));
+        int timePrep = Integer.parseInt(form.get("recipeTimePrepMinutes"));
+        int totalTime = Integer.parseInt(form.get("totalTime"));
+        int serves = Integer.parseInt(form.get("serves"));
+        String instructions = form.get("recipeInstructions");
+        String source = form.get("recipeSource");
+
+        String ingredientName = form.get("ingredientName");
+        String ingredientId = form.get("ingredientId");
+
+        Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
+                Recipe.class).setParameter("id", recipeId).getSingleResult();
+
+
+        List<RecipeIngredient> ingredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId = :id",
+                RecipeIngredient.class).setParameter("id", recipeId).getResultList();
+
+
+        recipe.setRecipeName(name);
+        recipe.setTimeCook(timeCook);
+        recipe.setTimePrep(timePrep);
+        recipe.setTotalTime(totalTime);
+        recipe.setServes(serves);
+        recipe.setInstructions(instructions);
+        recipe.setSource(source);
+
+
+        jpaApi.em().persist(recipe);
+        jpaApi.em().persist(ingredients);
+
+
+        return redirect(routes.RecipeController.getRecipes());
+    }*/
+
+
+
+
     @Transactional
     @BodyParser.Of(UploadMultipartFormDataBodyParser.class)
     public Result uploadPicture() throws IOException
@@ -287,6 +334,8 @@ public class RecipeController extends BaseController
 
 
     }
+
+
 
 
 }

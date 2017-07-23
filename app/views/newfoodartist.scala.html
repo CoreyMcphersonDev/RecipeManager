@@ -1,20 +1,24 @@
 @(foodArtistForm: FoodArtistForm, errorMessages : List[String])
 <!DOCTYPE html>
 <html>
+<head>
+    <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
+</head>
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Recipe Wizard!</a>
+            <div class="navbar-brand">Recipe Wizard!</div>
+            <ul class="nav navbar-nav">
+                <li class="active">Home</li>
+                <li><a href="mealHistory">Meal History</a></li>
+                <li><a href="recipes">Recipes</a></li>
+                <li><a href="ingredients">Ingredients</a></li>
+                <li><a href="recipeAdd">Add a Recipe </a></li>
+                <li><a href="ingredientAdd">Add an Ingredient</a></li>
+            </ul>
         </div>
-        <ul class="nav navbar-nav">
-            <li class="active">Home</li>
-            <li><a href="mealHistory">Meal History</a></li>
-            <li><a href="recipes">Recipes</a></li>
-            <li><a href="ingredients">Ingredients</a></li>
-            <li><a href="recipeAdd">Add a Recipe </a></li>
-            <li><a href="ingredientAdd">Add an Ingredient</a></li>
-        </ul>
     </div>
 </nav>
 
@@ -24,7 +28,7 @@
     First Name:<input type="text" name="firstname" id="firstname" ><br>
     Last Name:<input type="text" name="lastname" id="lastname"><br>
     Password:<input type="password" name="password" id="password"><br>
-    <button type="submit">Save</button>
+    <button type="submit">Save Food Artist</button>
 </form>
 @for(errorMessage <- errorMessages){
 <h3>@errorMessage</h3>

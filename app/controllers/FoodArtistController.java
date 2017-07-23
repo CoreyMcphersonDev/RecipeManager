@@ -99,7 +99,7 @@ public class FoodArtistController extends BaseController
 
             jpaApi.em().persist(foodArtist);
 
-            result = redirect(routes.RecipeController.getRecipes());
+            result = redirect(routes.LoginController.login());
         }
         else
         {

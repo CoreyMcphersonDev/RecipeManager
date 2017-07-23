@@ -35,7 +35,8 @@
 
 
     <select name="ingredientId1" id="ingredientId1">
-    @for(ingredient <- ingredients){
+
+        @for(ingredient <- ingredients){
     <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
     }
 </select>
@@ -56,6 +57,7 @@
     <button type="submit">Add Ingredient</button><br>
 
     <select name="ingredientId2" id="ingredientId2">
+
         @for(ingredient <- ingredients){
         <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
         }
@@ -79,6 +81,7 @@
 
 
     <select name="ingredientId3" id="ingredientId3">
+
         @for(ingredient <- ingredients){
         <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
         }
@@ -100,6 +103,7 @@
     <button type="submit">Add Ingredient</button><br>
 
     <select name="ingredientId4" id="ingredientId4">
+
         @for(ingredient <- ingredients){
         <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
         }

@@ -8,10 +8,8 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Recipe Wizard!</a>
-        </div>
+            <div class="navbar-brand">Recipe Wizard!</div>
         <ul class="nav navbar-nav">
-            <li class="active">Home</li>
             <li><a href="mealHistory">Meal History</a></li>
             <li><a href="recipes">Recipes</a></li>
             <li><a href="ingredients">Ingredients</a></li>
@@ -19,15 +17,22 @@
             <li><a href="ingredientAdd">Add an Ingredient</a></li>
         </ul>
     </div>
+    </div>
 </nav>
 
 <body>
 <div class="container">
+    <div class="row"></div>
     <form method="POST" action="@routes.LoginController.login">
-        <label>Username:</label><input type="text" name="username">
-        <label>Password:</label><input type="password" name="password">
-        <button value type="submit">Login</button>
-    </form>
+        <div class="col-md-6"> <label>Username:</label><input type="text" name="username"></div>
+        <div class="row"></div>
+        <div class="col-md-6"><label>Password:</label><input type="password" name="password"></div>
+        <div class="row"></div>
+        <div class="col-md-2"><button value type="submit" class="btn btn-primary">Login</button></div></form>
+
+    <div class="row"></div>
+    <div class="col-md-2"><a href="foodArtistAdd" class="btn btn-default" role="button">New User?</a></div>
+
 </div>
 </body>
 </html>
