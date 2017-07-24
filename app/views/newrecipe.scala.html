@@ -30,12 +30,16 @@
     Cooking Time:<input type="number" name="recipeTimeCookMinutes" id="recipeTimeCookMinutes" value="@recipeForm.timeCook"><br>
     Total Time:<input type="number" name="totalTime" id="totalTime" value="@recipeForm.totalTime"><br>
     Serves:<input type="number" name="serves" id="serves" value="@recipeForm.serves"><br>
-    Recipe Instructions:<input type="text" name="recipeInstructions" id="instructions" value="@recipeForm.instructions"><br>
+    Recipe Instructions:
+    <br><textarea name="recipeInstructions" id="instructions" value="@recipeForm.instructions"></textarea><br>
     Source:<input type="text" name="source" id="source" value="@recipeForm.source"><br>
 
 
-    <select name="ingredientId1" id="ingredientId1">
 
+
+
+    <select name="ingredientId1" id="ingredientId1">
+        <option label=" "></option>
         @for(ingredient <- ingredients){
     <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
     }
@@ -57,7 +61,7 @@
     <button type="submit">Add Ingredient</button><br>
 
     <select name="ingredientId2" id="ingredientId2">
-
+        <option label=" "></option>
         @for(ingredient <- ingredients){
         <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
         }
@@ -81,7 +85,7 @@
 
 
     <select name="ingredientId3" id="ingredientId3">
-
+        <option label=" "></option>
         @for(ingredient <- ingredients){
         <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
         }

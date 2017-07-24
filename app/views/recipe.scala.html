@@ -11,7 +11,7 @@
             <a class="navbar-brand" href="#">Recipe Wizard!</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active">Home</li>
+
             <li><a href="/mealHistory">Meal History</a></li>
             <li><a href="/recipes">Recipes</a></li>
             <li><a href="/ingredients">Ingredients</a></li>
@@ -39,16 +39,21 @@
             <div class="col-md-4"><label>Difficulty:</label> @recipe.getDifficultyRatingId</div>
             <div class="col-md-4"><label>Serves:</label> @recipe.getServes</div><br>
             <div class="col-md-8"><br></div>
+
+
+
+            <div class="row">
             <div class="col-md-8"> <label>Ingredients:</label></div>
             @for(ingredient <- ingredients){
-            <div class="col-md-8">@ingredient.getIngredientName @ingredient.getRecipeIngredientAmount @ingredient.getUnitMeasure @ingredient.getIngredientNote</div><br>
-            <div class="col-md-8"></div>
+            <div class="col-md-6">@ingredient.getIngredientName @ingredient.getRecipeIngredientAmount @ingredient.getUnitMeasure @ingredient.getIngredientNote</div><br>
                 }
-            <div class="col-md-8"><br></div>
-            <div class="col-md-12"><label>Instructions:</label> @recipe.getInstructions</div><br>
-            <div class="col-md-8"><br></div>
-        </div>
-        <div class="col-md-12"><img src=@{routes.RecipeController.getPicture(recipe.getRecipeId)}></div>
+
+            <div class="row">
+            <div class="col-md-4"><br></div>
+            <div class="row"></div>
+            <div class="col-md-4"><label>Instructions:</label> @recipe.getInstructions</div><br>
+                </div>
+                <div class="col-md-12"><img src=@{routes.RecipeController.getPicture(recipe.getRecipeId)} align="left"></div>
         <div class="col-md-12"><label>Source:</label> @recipe.getSource</div><br>
     <div class="container">
     <div class="row">
@@ -68,6 +73,8 @@
     </form>
     </div>
     </div>
+    </div>
+</div>
 </div>
 </body>
 </html>
