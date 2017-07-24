@@ -54,18 +54,26 @@
                 </div>
                 <div class="col-md-12"><img src=@{routes.RecipeController.getPicture(recipe.getRecipeId)} align="left"></div>
         <div class="col-md-12"><label>Source:</label> @recipe.getSource</div><br>
+            </div>
+            </div>
+            </div>
+            </form>
     <div class="container">
-    <div class="row">
+
+    <form class="row">
     <div class="col-md-12">Add a new photo: </div>
+    </form>
      <form action="/uploadRecipePicture" method="POST" enctype="multipart/form-data">
         <input type="file" id="filename" name="filename" />
         <input type="hidden" id="id" name="id" value="@recipe.getRecipeId"/>
-        <button type="submit">Save Photo</button>
+         <button type="submit">Save Photo</button>
+
       <div class="col-md-12"> </div>
       <div class="col-md-12"> </div>
          <div class="col-md-12"> </div>
          <div class="col-md-12"> </div>
          <div class="col-md-12"> </div>
+
 
 
 
@@ -73,6 +81,7 @@
     </div>
     </div>
     </div>
+
 </div>
 </div>
 </body>
