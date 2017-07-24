@@ -10,6 +10,9 @@ public class Recipe
     public static final int RECIPE_NAME_MAX_LENGTH = 100;
     public static final int RECIPE_NAME_MIN_LENGTH = 3;
 
+    public static final int DIFFICULTY_RATING_MAX = 3;
+    public static final int DIFFICULTY_RATING_MIN = 1;
+
 
 
 

@@ -11,6 +11,7 @@ import play.db.jpa.Transactional;
 import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
+import validators.NumberValidator;
 
 import java.io.File;
 import java.io.IOException;
@@ -157,6 +158,7 @@ public class RecipeController extends BaseController
         recipeForm.serves = form.get("serves");
         recipeForm.instructions = form.get("recipeInstructions");
         recipeForm.source = form.get("recipeSource");
+        recipeForm.difficultyRatingId = form.get("difficultyRatingId");
 
         int recipeIngredientIndex = 1;
 
@@ -169,6 +171,7 @@ public class RecipeController extends BaseController
             recipeIngredientForm.unitMeasure = form.get("unitMeasure" + recipeIngredientIndex);
             recipeIngredientForm.ingredientNote = form.get("ingredientNote" + recipeIngredientIndex);
             recipeIngredientForms.add(recipeIngredientForm);
+
             recipeIngredientIndex++;
         }
 
@@ -185,6 +188,13 @@ public class RecipeController extends BaseController
                 errorMessages.add("Recipe name must be between " + Recipe.RECIPE_NAME_MIN_LENGTH + " and " + Recipe.RECIPE_NAME_MAX_LENGTH + " characters");
             }
 
+            if (!NumberValidator.isValid(recipeForm.difficultyRatingId, Recipe.DIFFICULTY_RATING_MIN, Recipe.DIFFICULTY_RATING_MAX))
+            {
+                valid = false;
+                errorMessages.add("Difficulty rating must be between " + Recipe.DIFFICULTY_RATING_MIN + " and " + Recipe.DIFFICULTY_RATING_MAX);
+
+            }
+
             if (valid)
             {
                 Recipe recipe = new Recipe();
@@ -198,6 +208,7 @@ public class RecipeController extends BaseController
                 recipe.setServes(Integer.parseInt(recipeForm.serves));
                 recipe.setInstructions(recipeForm.instructions);
                 recipe.setSource(recipeForm.source);
+                recipe.setDifficultyRatingId(Integer.parseInt(recipeForm.difficultyRatingId));
 
                 jpaApi.em().persist(recipe);
 
@@ -249,6 +260,7 @@ public class RecipeController extends BaseController
         int serves = Integer.parseInt(form.get("serves"));
         String instructions = form.get("recipeInstructions");
         String source = form.get("recipeSource");
+        int difficultyRatingId = Integer.parseInt(form.get("difficultyRatingId"));
 
         String ingredientName = form.get("ingredientName");
         String ingredientId = form.get("ingredientId");
@@ -260,7 +272,6 @@ public class RecipeController extends BaseController
         List<RecipeIngredient> ingredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId = :id",
                 RecipeIngredient.class).setParameter("id", recipeId).getResultList();
 
-
         recipe.setRecipeName(name);
         recipe.setTimeCook(timeCook);
         recipe.setTimePrep(timePrep);
@@ -268,58 +279,13 @@ public class RecipeController extends BaseController
         recipe.setServes(serves);
         recipe.setInstructions(instructions);
         recipe.setSource(source);
-
+        recipe.setDifficultyRatingId(difficultyRatingId);
 
         jpaApi.em().persist(recipe);
         jpaApi.em().persist(ingredients);
-
 
         return redirect(routes.RecipeController.getRecipes());
     }
-
-
-
-    /*@Transactional
-    public Result editRecipe(Integer Id)
-    {
-        DynamicForm form = formFactory.form().bindFromRequest();
-
-        int recipeId = Integer.parseInt(form.get("id"));
-        String name = form.get("recipeName");
-        int timeCook = Integer.parseInt(form.get("recipeTimeCookMinutes"));
-        int timePrep = Integer.parseInt(form.get("recipeTimePrepMinutes"));
-        int totalTime = Integer.parseInt(form.get("totalTime"));
-        int serves = Integer.parseInt(form.get("serves"));
-        String instructions = form.get("recipeInstructions");
-        String source = form.get("recipeSource");
-
-        String ingredientName = form.get("ingredientName");
-        String ingredientId = form.get("ingredientId");
-
-        Recipe recipe = jpaApi.em().createQuery("SELECT r FROM Recipe r WHERE recipeId = :id",
-                Recipe.class).setParameter("id", recipeId).getSingleResult();
-
-
-        List<RecipeIngredient> ingredients = jpaApi.em().createQuery("SELECT r FROM RecipeIngredient r WHERE recipeId = :id",
-                RecipeIngredient.class).setParameter("id", recipeId).getResultList();
-
-
-        recipe.setRecipeName(name);
-        recipe.setTimeCook(timeCook);
-        recipe.setTimePrep(timePrep);
-        recipe.setTotalTime(totalTime);
-        recipe.setServes(serves);
-        recipe.setInstructions(instructions);
-        recipe.setSource(source);
-
-
-        jpaApi.em().persist(recipe);
-        jpaApi.em().persist(ingredients);
-
-
-        return redirect(routes.RecipeController.getRecipes());
-    }*/
-
 
 
 
@@ -354,7 +320,7 @@ public class RecipeController extends BaseController
         Recipe recipe = (Recipe)jpaApi.em()
                 .createQuery("SELECT r FROM Recipe r where recipeId = :id").setParameter("id", id).getSingleResult();
 
-       return ok(recipe.getPhoto()).as("image/bmp");
+       return ok(recipe.getPhoto()).as("image/jpg");
 
 
     }
