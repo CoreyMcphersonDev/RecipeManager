@@ -11,7 +11,7 @@
             <a class="navbar-brand" href="#">Recipe Wizard!</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active">Home</li>
+
             <li><a href="mealHistory">Meal History</a></li>
             <li><a href="recipes">Recipes</a></li>
             <li><a href="ingredients">Ingredients</a></li>
@@ -21,7 +21,8 @@
     </div>
 </nav>
 
-<body>
+
+<body style="background-color:rgb(197, 200, 204);">
 <form method="POST" action="@routes.IngredientController.addNewIngredient">
     Ingredient Name:<input type="text" name="ingredientName" id="ingredientName" value="@ingredientForm.ingredientName"><br>
         <button type="submit">Save Ingredient</button>

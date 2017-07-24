@@ -121,10 +121,16 @@ public class RecipeController extends BaseController
     {
         List<String> errorMessages = new ArrayList<>();
 
+        List<RecipeIngredientForm> recipeIngredientForms = new ArrayList<>();
+
+        RecipeIngredientForm  recipeIngredientForm = new RecipeIngredientForm(1);
+
+        recipeIngredientForms.add(recipeIngredientForm);
+
         List<Ingredient> ingredients = jpaApi.em()
                 .createQuery("SELECT i FROM Ingredient i ORDER BY ingredientName", Ingredient.class).getResultList();
 
-               return ok(views.html.newrecipe.render(new RecipeForm(),  errorMessages, ingredients));
+               return ok(views.html.newrecipe.render(new RecipeForm(),  errorMessages, ingredients, recipeIngredientForms));
     }
 
 
@@ -149,65 +155,83 @@ public class RecipeController extends BaseController
         recipeForm.timePrep = form.get("recipeTimePrepMinutes");
         recipeForm.totalTime = form.get("totalTime");
         recipeForm.serves = form.get("serves");
-
-        for (int i = 1; i <= 4; i++)
-        {
-            RecipeIngredientForm recipeIngredientForm = new RecipeIngredientForm();
-            recipeIngredientForm.ingredientId = form.get("ingredientId" + i);
-            recipeIngredientForm.recipeIngredientAmount = form.get("recipeIngredientAmount" + i);
-            recipeIngredientForm.unitMeasure = form.get("unitMeasure" + i);
-            recipeIngredientForm.ingredientNote = form.get("ingredientNote" + i);
-            recipeIngredientForms.add(recipeIngredientForm);
-        }
-
         recipeForm.instructions = form.get("recipeInstructions");
         recipeForm.source = form.get("recipeSource");
 
-        boolean valid = true;
+        int recipeIngredientIndex = 1;
 
-        if (recipeForm.recipeName == null || recipeForm.recipeName.length() < 3 || recipeForm.recipeName.length() > 100 )
+
+        while (form.get("ingredientId" + recipeIngredientIndex) != null && recipeIngredientIndex < 100)
         {
-            valid = false;
-            errorMessages.add("Recipe name must be between " + Recipe.RECIPE_NAME_MIN_LENGTH + " and " + Recipe.RECIPE_NAME_MAX_LENGTH + " characters");
+            RecipeIngredientForm recipeIngredientForm = new RecipeIngredientForm(recipeIngredientIndex);
+            recipeIngredientForm.ingredientId = form.get("ingredientId" + recipeIngredientIndex);
+            recipeIngredientForm.recipeIngredientAmount = form.get("recipeIngredientAmount" + recipeIngredientIndex);
+            recipeIngredientForm.unitMeasure = form.get("unitMeasure" + recipeIngredientIndex);
+            recipeIngredientForm.ingredientNote = form.get("ingredientNote" + recipeIngredientIndex);
+            recipeIngredientForms.add(recipeIngredientForm);
+            recipeIngredientIndex++;
         }
 
-        if (valid)
+
+        String action = form.get("Action");
+
+        if ("Save".equals(action))
         {
-            Recipe recipe = new Recipe();
+            boolean valid = true;
 
-            //Set
-            recipe.setFoodArtistId(Integer.parseInt(session().get("foodArtistId")));
-            recipe.setRecipeName(recipeForm.recipeName);
-            recipe.setTimeCook(Integer.parseInt(recipeForm.timeCook));
-            recipe.setTimePrep(Integer.parseInt(recipeForm.timePrep));
-            recipe.setTotalTime(Integer.parseInt(recipeForm.totalTime));
-            recipe.setServes(Integer.parseInt(recipeForm.serves));
-            recipe.setInstructions(recipeForm.instructions);
-            recipe.setSource(recipeForm.source);
-
-            jpaApi.em().persist(recipe);
-
-            for (RecipeIngredientForm recipeIngredientForm:recipeIngredientForms)
+            if (recipeForm.recipeName == null || recipeForm.recipeName.length() < 3 || recipeForm.recipeName.length() > 100)
             {
-                RecipeIngredient recipeIngredient = new RecipeIngredient();
-                recipeIngredient.setRecipeId(recipe.getRecipeId());
-                recipeIngredient.setIngredientId(Integer.parseInt(recipeIngredientForm.ingredientId));
-
-
-                recipeIngredient.setRecipeIngredientAmount(recipeIngredientForm.recipeIngredientAmount);
-                recipeIngredient.setUnitMeasure(recipeIngredientForm.unitMeasure);
-                recipeIngredient.setIngredientNote(recipeIngredientForm.ingredientNote);
-
-                jpaApi.em().persist(recipeIngredient);
+                valid = false;
+                errorMessages.add("Recipe name must be between " + Recipe.RECIPE_NAME_MIN_LENGTH + " and " + Recipe.RECIPE_NAME_MAX_LENGTH + " characters");
             }
 
+            if (valid)
+            {
+                Recipe recipe = new Recipe();
 
-            result = redirect(routes.RecipeController.getRecipes());
+                //Set
+                recipe.setFoodArtistId(Integer.parseInt(session().get("foodArtistId")));
+                recipe.setRecipeName(recipeForm.recipeName);
+                recipe.setTimeCook(Integer.parseInt(recipeForm.timeCook));
+                recipe.setTimePrep(Integer.parseInt(recipeForm.timePrep));
+                recipe.setTotalTime(Integer.parseInt(recipeForm.totalTime));
+                recipe.setServes(Integer.parseInt(recipeForm.serves));
+                recipe.setInstructions(recipeForm.instructions);
+                recipe.setSource(recipeForm.source);
+
+                jpaApi.em().persist(recipe);
+
+                for (RecipeIngredientForm recipeIngredientForm : recipeIngredientForms)
+                {
+                    RecipeIngredient recipeIngredient = new RecipeIngredient();
+
+                    recipeIngredient.setRecipeId(recipe.getRecipeId());
+                    recipeIngredient.setIngredientId(Integer.parseInt(recipeIngredientForm.ingredientId));
+                    recipeIngredient.setRecipeIngredientAmount(recipeIngredientForm.recipeIngredientAmount);
+                    recipeIngredient.setUnitMeasure(recipeIngredientForm.unitMeasure);
+                    recipeIngredient.setIngredientNote(recipeIngredientForm.ingredientNote);
+
+                    if (!recipeIngredientForm.ingredientId.equals("None"))
+                    {
+                        jpaApi.em().persist(recipeIngredient);
+                    }
+                }
+
+                result = redirect(routes.RecipeController.getRecipes());
+            } else
+            {
+                result = ok(views.html.newrecipe.render(recipeForm, errorMessages, ingredients, recipeIngredientForms));
+            }
         }
         else
         {
-            result = ok(views.html.newrecipe.render(recipeForm, errorMessages, ingredients));
+            RecipeIngredientForm recipeIngredientForm = new RecipeIngredientForm(recipeIngredientIndex);
+            recipeIngredientForms.add(recipeIngredientForm);
+
+            result = ok(views.html.newrecipe.render(recipeForm, errorMessages, ingredients, recipeIngredientForms));
+
         }
+
         return result;
     }
 

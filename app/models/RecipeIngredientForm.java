@@ -9,6 +9,13 @@ public class RecipeIngredientForm
     public String unitMeasure;
     public String ingredientNote;
 
+    public int index;
+
+
+    public RecipeIngredientForm(int index)
+    {
+        this.index = index;
+    }
 
 
 }

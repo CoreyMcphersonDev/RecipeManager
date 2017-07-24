@@ -21,14 +21,15 @@
     </div>
 </nav>
 
-<body>
+
+
+<body style="background-color:rgb(197, 200, 204);">
 <div class="container">
     <form method="POST" action="@routes.RecipeController.updateRecipe">
         <input type="hidden" name="recipeId" id="recipeId" value="@recipe.getRecipeId">
 
         <div class="row">
             <div class="col-md-12"><label><h1>@recipe.getRecipeName</h1></label></div>
-
 
         <div class="row">
             <div class="col-md-4"><input type="hidden" name=""><label>Total Time:</label> @recipe.getTotalTime</div>
@@ -39,8 +40,6 @@
             <div class="col-md-4"><label>Difficulty:</label> @recipe.getDifficultyRatingId</div>
             <div class="col-md-4"><label>Serves:</label> @recipe.getServes</div><br>
             <div class="col-md-8"><br></div>
-
-
 
             <div class="row">
             <div class="col-md-8"> <label>Ingredients:</label></div>

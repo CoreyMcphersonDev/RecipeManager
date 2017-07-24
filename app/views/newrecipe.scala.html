@@ -1,4 +1,4 @@
-@(recipeForm: RecipeForm, errorMessages : List[String], ingredients : List[Ingredient])
+@(recipeForm: RecipeForm, errorMessages : List[String], ingredients : List[Ingredient], recipeIngredientForms : List[RecipeIngredientForm])
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +20,8 @@
         </ul>
     </div>
 </nav>
-<body>
+
+<body style="background-color:rgb(197, 200, 204);">
 
 <form method="POST" action="@routes.RecipeController.addNewRecipe">
 
@@ -35,103 +36,35 @@
     Source:<input type="text" name="source" id="source" value="@recipeForm.source"><br>
 
 
+    @for(recipeIngredientForm <- recipeIngredientForms){
+    <select name="ingredientId@recipeIngredientForm.index" id="ingredientId@recipeIngredientForm.index">
+        <option value="None" ></option>
 
-
-
-    <select name="ingredientId1" id="ingredientId1">
-        <option label=" "></option>
         @for(ingredient <- ingredients){
-    <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
+        <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
+        }
+    </select>
+
+    Amount:<input type="text" name="recipeIngredientAmount@recipeIngredientForm.index" id="recipeIngredientAmount@recipeIngredientForm.index">
+    <select name="unitMeasure@recipeIngredientForm.index" id="unitMeasure@recipeIngredientForm.index">
+        <option value="Bunch">Bunch</option>
+        <option value="Clove">Clove</option>
+        <option value="Cup">Cup</option>
+        <option value="Lb">Lb</option>
+        <option value="Oz">Oz</option>
+        <option value="Piece">Piece</option>
+        <option value="Tbsp">Tbsp</option>
+        <option value="tsp">tsp</option>
+    </select>
+
+    Ingredient Notes:<input type="text" name="ingredientNote@recipeIngredientForm.index" id="ingredientNote@recipeIngredientForm.index"><br>
     }
-</select>
-
-    Amount:<input type="text" name="recipeIngredientAmount1" id="recipeIngredientAmount1">
-    <select name="unitMeasure1" id="unitMeasure1">
-        <option value="Bunch">Bunch</option>
-        <option value="Clove">Clove</option>
-        <option value="Cup">Cup</option>
-        <option value="Lb">Lb</option>
-        <option value="Oz">Oz</option>
-        <option value="Piece">Piece</option>
-        <option value="Tbsp">Tbsp</option>
-        <option value="tsp">tsp</option>
-    </select>
-
-    Ingredient Notes:<input type="text" name="ingredientNote1" id="ingredientNote1">
-    <button type="submit">Add Ingredient</button><br>
-
-    <select name="ingredientId2" id="ingredientId2">
-        <option label=" "></option>
-        @for(ingredient <- ingredients){
-        <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
-        }
-    </select>
-
-    Amount:<input type="text" name="recipeIngredientAmount2" id="recipeIngredientAmount2">
-    <select name="unitMeasure2" id="unitMeasure2">
-        <option value="Bunch">Bunch</option>
-        <option value="Clove">Clove</option>
-        <option value="Cup">Cup</option>
-        <option value="Lb">Lb</option>
-        <option value="Oz">Oz</option>
-        <option value="Piece">Piece</option>
-        <option value="Tbsp">Tbsp</option>
-        <option value="tsp">tsp</option>
-    </select>
-
-    Ingredient Notes:<input type="text" name="ingredientNote2" id="ingredientNote2">
-
-    <button type="submit">Add Ingredient</button><br>
-
-
-    <select name="ingredientId3" id="ingredientId3">
-        <option label=" "></option>
-        @for(ingredient <- ingredients){
-        <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
-        }
-    </select>
-
-    Amount:<input type="text" name="recipeIngredientAmount3" id="recipeIngredientAmount3">
-    <select name="unitMeasure3" id="unitMeasure3">
-        <option value="Bunch">Bunch</option>
-        <option value="Clove">Clove</option>
-        <option value="Cup">Cup</option>
-        <option value="Lb">Lb</option>
-        <option value="Oz">Oz</option>
-        <option value="Piece">Piece</option>
-        <option value="Tbsp">Tbsp</option>
-        <option value="tsp">tsp</option>
-    </select>
-
-    Ingredient Notes:<input type="text" name="ingredientNote3" id="ingredientNote3">
-    <button type="submit">Add Ingredient</button><br>
-
-    <select name="ingredientId4" id="ingredientId4">
-
-        @for(ingredient <- ingredients){
-        <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
-        }
-    </select>
-
-    Amount:<input type="text" name="recipeIngredientAmount4" id="recipeIngredientAmount4">
-    <select name="unitMeasure4" id="unitMeasure4">
-        <option value="Bunch">Bunch</option>
-        <option value="Clove">Clove</option>
-        <option value="Cup">Cup</option>
-        <option value="Lb">Lb</option>
-        <option value="Oz">Oz</option>
-        <option value="Piece">Piece</option>
-        <option value="Tbsp">Tbsp</option>
-        <option value="tsp">tsp</option>
-    </select>
-
-    Ingredient Notes:<input type="text" name="ingredientNote4" id="ingredientNote4">
-    <button type="submit">Add Ingredient</button><br>
-
-
-
-    <button type="submit">Save Recipe</button>
+    <button type="submit" name="Action" value="AddIngredient">Add Ingredient</button><br>
+    <br>
+    <button type="submit" name="Action" value="Save">Save Recipe</button>
 </form>
+
+
 @for(errorMessage <- errorMessages){
 <h3>@errorMessage</h3>
 }
