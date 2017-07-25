@@ -48,7 +48,7 @@
             <div class="row">
             <div class="col-md-4"><br></div>
             <div class="row"></div>
-            <div class="col-md-8"><label>Instructions:</label> @recipe.getInstructions</div><br>
+                <div class="col-md-8"><label>Instructions:</label><pre>@recipe.getInstructions</pre></div><br>
                 </div>
                 <div class="col-md-12"><img src=@{routes.RecipeController.getPicture(recipe.getRecipeId)} align="left"></div>
         <div class="col-md-12"><label>Source:</label> @recipe.getSource</div><br>

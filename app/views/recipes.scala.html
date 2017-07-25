@@ -20,20 +20,15 @@
     </div>
 </nav>
 
-
-
-
-
 <body style="background-color:rgb(197, 200, 204);">
 
-<img src="/CashewlessVeganQuesoMain.jpg" style="width:304px;height:228px;">
 
-
+<div class="form-group">
 <form method="GET" action="@routes.RecipeController.recipeSearch">
     Recipe Name: <input type="text" name="recipeName" id="recipeName">
-    <button type="submit">Search</button>
+    <button type="submit" class="btn btn-info">Search</button>
 </form>
-
+</div>
 <ul class="recipes">
      @for(recipe <- recipes) {
     <li class="recipes-item active"><a href="/recipe/@recipe.getRecipeId">@recipe.getRecipeName</a>
