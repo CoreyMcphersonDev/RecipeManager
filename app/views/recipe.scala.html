@@ -33,8 +33,6 @@
 
         <div class="row">
             <div class="col-md-4"><input type="hidden" name=""><label>Total Time:</label> @recipe.getTotalTime</div>
-
-
             <div class="col-md-4"><label>Cook Time:</label> @recipe.getTimeCook</div>
             <div class="col-md-4"><label>Prep Time:</label> @recipe.getTimePrep</div>
             <div class="col-md-4"><label>Difficulty:</label> @recipe.getDifficultyRatingId</div>
@@ -46,11 +44,11 @@
             @for(ingredient <- ingredients){
             <div class="col-md-6">@ingredient.getIngredientName @ingredient.getRecipeIngredientAmount @ingredient.getUnitMeasure @ingredient.getIngredientNote</div><br>
                 }
-
+            <br>
             <div class="row">
             <div class="col-md-4"><br></div>
             <div class="row"></div>
-            <div class="col-md-4"><label>Instructions:</label> @recipe.getInstructions</div><br>
+            <div class="col-md-8"><label>Instructions:</label> @recipe.getInstructions</div><br>
                 </div>
                 <div class="col-md-12"><img src=@{routes.RecipeController.getPicture(recipe.getRecipeId)} align="left"></div>
         <div class="col-md-12"><label>Source:</label> @recipe.getSource</div><br>
