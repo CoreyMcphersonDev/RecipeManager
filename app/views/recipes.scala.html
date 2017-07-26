@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.css">
     <script type="text/javascript" src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -23,33 +23,30 @@
     </div>
 </nav>
 
-<body style="background-color:rgb(197, 200, 204);">
+<body style="background-color: #ead36e;">
 
+<div class="row">
 
 <div class="form-group">
+    <div class="col-md-4">
 <form method="GET" action="@routes.RecipeController.recipeSearch">
     Recipe Name: <input type="text" name="recipeName" id="recipeName">
     <button type="submit" class="btn btn-info">Search</button>
-</form>
-</div>
+</form></div></div></div>
+
+
+
+<div class="row">
+<div class="col-md-6">
 <ul class="recipes">
      @for(recipe <- recipes) {
     <li class="recipes-item active"><a href="/recipe/@recipe.getRecipeId">@recipe.getRecipeName</a>
         }
     </li>
 </ul>
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-
-<div class="container">
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+</div>
+    <div class="col-md-6">
+    <div id="myCarousel" class="carousel slide"  style=" width: 500px;" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -110,10 +107,8 @@
         </a>
     </div>
 </div>
-
-
-
-
+</div>
+</div>
 
 
 </body>
