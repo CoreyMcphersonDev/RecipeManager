@@ -27,20 +27,40 @@
 
 <body style="background-color: #ead36e;">
 
+<style type="text/css">
+    .container {
+        width: 500px;
+        clear: both;
+    }
+    .container input {
+        width: 100%;
+        clear: both;
+    }
+
+    </style>
+
+
+<div class="container">
 <form method="POST" action="@routes.RecipeController.addNewRecipe">
 
-    Recipe Name:<input name="recipeName" id="recipeName" value="@recipeForm.recipeName"><br>
+    Recipe Name:    <input name="recipeName" id="recipeName" value="@recipeForm.recipeName"><br><br>
 
-    Prep Time:<input type="number" name="recipeTimePrepMinutes" id="recipeTimePrepMinutes" value="@recipeForm.timePrep"><br>
-    Cooking Time:<input type="number" name="recipeTimeCookMinutes" id="recipeTimeCookMinutes" value="@recipeForm.timeCook"><br>
-    Total Time:<input type="number" name="totalTime" id="totalTime" value="@recipeForm.totalTime"><br>
-    Serves:<input type="number" name="serves" id="serves" value="@recipeForm.serves"><br>
-    Difficulty (1-3):<input type="number" name="difficultyRatingId" id="difficultyRatingId" value="recipeForm.difficultyRatingId"><br>
+    Prep Time:  <input type="number" name="recipeTimePrepMinutes" id="recipeTimePrepMinutes"  value="@recipeForm.timePrep"><br>
+
+    Cooking Time:<input type="number" name="recipeTimeCookMinutes" id="recipeTimeCookMinutes"  value="@recipeForm.timeCook"><br>
+
+    Total Time: <input type="number" name="totalTime" id="totalTime" value="@recipeForm.totalTime"><br>
+
+    Serves: <input type="number" name="serves" id="serves" value="@recipeForm.serves"><br>
+
+    Difficulty (1-3):   <input type="number" name="difficultyRatingId" id="difficultyRatingId" value="recipeForm.difficultyRatingId"><br>
+
     Recipe Instructions:
-    <br><textarea name="recipeInstructions" id="instructions" value="@recipeForm.instructions"></textarea><br>
-    Source:<input type="text" name="source" id="source" value="@recipeForm.source"><br>
+        <br><textarea name="recipeInstructions" id="instructions" value="@recipeForm.instructions"></textarea><br>
 
+    Source: <input type="text" name="source" id="source" value="@recipeForm.source"><br><br>
 
+    Ingredients:<br>
     @for(recipeIngredientForm <- recipeIngredientForms){
     <select name="ingredientId@recipeIngredientForm.index" id="ingredientId@recipeIngredientForm.index">
         <option value="None" ></option>
@@ -49,6 +69,8 @@
         <option value="@ingredient.getIngredientId">@ingredient.getIngredientName</option>
         }
     </select>
+
+    <br>
 
     Amount:<input type="text" name="recipeIngredientAmount@recipeIngredientForm.index" id="recipeIngredientAmount@recipeIngredientForm.index">
     <select name="unitMeasure@recipeIngredientForm.index" id="unitMeasure@recipeIngredientForm.index">
@@ -61,19 +83,19 @@
         <option value="Tbsp">Tbsp</option>
         <option value="tsp">tsp</option>
     </select>
+    <br>
 
     Ingredient Notes:<input type="text" name="ingredientNote@recipeIngredientForm.index" id="ingredientNote@recipeIngredientForm.index"><br>
     }
     <button type="submit" class="btn btn-info" name="Action" value="AddIngredient">Add Ingredient</button><br>
     <br>
     <button type="submit" class="btn btn-info" name="Action" value="Save">Save Recipe</button>
-</form>
-
 
 @for(errorMessage <- errorMessages){
 <h3>@errorMessage</h3>
 }
 
-
+</form>
+</div>
 </body>
 </html>
